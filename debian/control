@@ -2,12 +2,12 @@ Source: odoo
 Section: net
 Priority: optional
 Maintainer: Odoo S.A. <info@odoo.com>
-Uploaders: Aaron Bohy <aab@odoo.com>, Simon Lejeune <sle@odoo.com>
+Uploaders: Aaron Bohy <aab@odoo.com>, Simon Lejeune <sle@odoo.com>, Sebastien Delafond <seb@debian.org>
 Build-Depends: debhelper-compat (= 12), dh-python, python3, rsync, python3-setuptools
 Standards-Version: 4.5.0
 Homepage: http://www.odoo.com/
-Vcs-Git: https://github.com/odoo/odoo
-Vcs-Browser: https://github.com/odoo/odoo
+Vcs-Git: https://salsa.debian.org/freexian-team/odoo.git
+Vcs-Browser: https://salsa.debian.org/freexian-team/odoo
 
 Package: odoo
 Architecture: all
