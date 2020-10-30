@@ -80,6 +80,21 @@ function factory(dependencies) {
          * @private
          * @returns {integer|undefined}
          */
+        _computeThreadCacheInitialScrollHeight() {
+            if (!this.threadCache) {
+                return clear();
+            }
+            const threadCacheInitialScrollHeight = this.threadCacheInitialScrollHeights[this.threadCache.localId];
+            if (threadCacheInitialScrollHeight !== undefined) {
+                return threadCacheInitialScrollHeight;
+            }
+            return clear();
+        }
+
+        /**
+         * @private
+         * @returns {integer|undefined}
+         */
         _computeThreadCacheInitialScrollPosition() {
             if (!this.threadCache) {
                 return clear();
@@ -121,6 +136,7 @@ function factory(dependencies) {
             if (this.threadCache) {
                 this.threadCache.update({ isCacheRefreshRequested: true });
             }
+            this.update({ lastVisibleMessage: [['unlink']] });
         }
 
         /**
@@ -210,16 +226,22 @@ function factory(dependencies) {
          * hint `message-received`.
          */
         hasAutoScrollOnMessageReceived: attr(),
+        /**
+         * Last message in the context of the currently displayed thread cache.
+         */
         lastMessage: many2one('mail.message', {
             related: 'thread.lastMessage',
         }),
         /**
          * Most recent message in this ThreadView that has been shown to the
-         * current partner.
+         * current partner in the currently displayed thread cache.
          */
         lastVisibleMessage: many2one('mail.message'),
         messages: many2many('mail.message', {
             related: 'threadCache.messages',
+        }),
+        nonEmptyMessages: many2many('mail.message', {
+            related: 'threadCache.nonEmptyMessages',
         }),
         /**
          * Not a real field, used to trigger `_onThreadCacheChanged` when one of
@@ -264,6 +286,13 @@ function factory(dependencies) {
             inverse: 'threadViews',
             related: 'threadViewer.threadCache',
         }),
+        threadCacheInitialScrollHeight: attr({
+            compute: '_computeThreadCacheInitialScrollHeight',
+            dependencies: [
+                'threadCache',
+                'threadCacheInitialScrollHeights',
+            ],
+        }),
         threadCacheInitialScrollPosition: attr({
             compute: '_computeThreadCacheInitialScrollPosition',
             dependencies: [
@@ -276,6 +305,13 @@ function factory(dependencies) {
          */
         threadCacheIsLoading: attr({
             related: 'threadCache.isLoading',
+        }),
+        /**
+         * List of saved initial scroll heights of thread caches.
+         */
+        threadCacheInitialScrollHeights: attr({
+            default: {},
+            related: 'threadViewer.threadCacheInitialScrollHeights',
         }),
         /**
          * List of saved initial scroll positions of thread caches.

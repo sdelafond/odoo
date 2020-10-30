@@ -332,7 +332,7 @@ function factory(dependencies) {
                 model: 'mail.channel',
                 method: 'channel_info',
                 args: [ids],
-            });
+            }, { shadow: true });
             const channels = this.env.models['mail.thread'].insert(
                 channelInfos.map(channelInfo => this.env.models['mail.thread'].convertData(channelInfo))
             );
@@ -340,7 +340,6 @@ function factory(dependencies) {
             this.env.messaging.messagingMenu.update();
             return channels;
         }
-
 
         /**
          * Performs the `channel_seen` RPC on `mail.channel`.
@@ -357,6 +356,25 @@ function factory(dependencies) {
                 args: [ids],
                 kwargs: {
                     last_message_id: lastMessageId,
+                },
+            }, { shadow: true });
+        }
+
+        /**
+         * Performs the `channel_pin` RPC on `mail.channel`.
+         *
+         * @static
+         * @param {Object} param0
+         * @param {boolean} [param0.pinned=false]
+         * @param {string} param0.uuid
+         */
+        static async performRpcChannelPin({ pinned = false, uuid }) {
+            return this.env.services.rpc({
+                model: 'mail.channel',
+                method: 'channel_pin',
+                kwargs: {
+                    uuid,
+                    pinned,
                 },
             }, { shadow: true });
         }
@@ -453,6 +471,25 @@ function factory(dependencies) {
         }
 
         /**
+         * Performs the `execute_command` RPC on `mail.channel`.
+         *
+         * @static
+         * @param {Object} param0
+         * @param {string} param0.command the command to execute
+         * @param {integer[]} param0.ids list of id of channels
+         */
+        static async performRpcExecuteCommand({ command, ids }) {
+            return this.env.services.rpc({
+                model: 'mail.channel',
+                method: 'execute_command',
+                args: [ids],
+                kwargs: {
+                    command,
+                }
+            });
+        }
+
+        /**
          * Performs RPC on the route `/mail/get_suggested_recipients`.
          *
          * @static
@@ -467,7 +504,7 @@ function factory(dependencies) {
                     model,
                     res_ids,
                 },
-            });
+            }, { shadow: true });
             for (const id in data) {
                 const recipientInfoList = data[id].map(recipientInfoData => {
                     const [partner_id, emailInfo, reason] = recipientInfoData;
@@ -516,7 +553,7 @@ function factory(dependencies) {
                 ],
                 fields: ['id', 'name', 'mimetype'],
                 orderBy: [{ name: 'id', asc: false }],
-            }));
+            }, { shadow: true }));
             this.update({
                 originThreadAttachments: [['insert-and-replace',
                     attachmentsData.map(data =>
@@ -633,23 +670,17 @@ function factory(dependencies) {
          *
          * Only makes sense if isPendingPinned is set to the desired value.
          */
-        notifyPinStateToServer() {
-            // method is called from _updateAfter so it cannot be async
+        async notifyPinStateToServer() {
             if (this.isPendingPinned) {
-                this.env.services.rpc({
-                    model: 'mail.channel',
-                    method: 'channel_pin',
-                    kwargs: {
-                        uuid: this.uuid,
-                        pinned: true,
-                    },
-                }, { shadow: true });
+                await this.env.models['mail.thread'].performRpcChannelPin({
+                    pinned: true,
+                    uuid: this.uuid,
+                });
             } else {
-                this.env.services.rpc({
-                    model: 'mail.channel',
-                    method: 'execute_command',
-                    args: [[this.id], 'leave']
-                }, { shadow: true });
+                await this.env.models['mail.thread'].performRpcExecuteCommand({
+                    command: 'leave',
+                    ids: [this.id],
+                });
             }
         }
 
@@ -701,6 +732,14 @@ function factory(dependencies) {
         }
 
         /**
+         * Pin this thread and notify server of the change.
+         */
+        async pin() {
+            this.update({ isPendingPinned: true });
+            await this.notifyPinStateToServer();
+        }
+
+        /**
          * Open a dialog to add channels as followers.
          */
         promptAddChannelFollower() {
@@ -736,12 +775,12 @@ function factory(dependencies) {
                 model: this.model,
                 method: 'read',
                 args: [this.id, ['activity_ids']]
-            }));
+            }, { shadow: true }));
             const activitiesData = await this.async(() => this.env.services.rpc({
                 model: 'mail.activity',
                 method: 'activity_format',
                 args: [newActivityIds]
-            }));
+            }, { shadow: true }));
             const activities = this.env.models['mail.activity'].insert(activitiesData.map(
                 activityData => this.env.models['mail.activity'].convertData(activityData)
             ));
@@ -762,7 +801,7 @@ function factory(dependencies) {
                     res_id: this.id,
                     res_model: this.model,
                 },
-            }));
+            }, { shadow: true }));
             if (followers.length > 0) {
                 this.update({
                     followers: [['insert-and-replace', followers.map(data =>
@@ -868,6 +907,14 @@ function factory(dependencies) {
         }
 
         /**
+         * Unpin this thread and notify server of the change.
+         */
+        async unpin() {
+            this.update({ isPendingPinned: false });
+            await this.notifyPinStateToServer();
+        }
+
+        /**
          * Called when current partner has explicitly stopped inserting some
          * input in composer. Useful to notify current partner has currently
          * stopped typing something in the composer of this thread to all other
@@ -921,7 +968,7 @@ function factory(dependencies) {
          */
         unsubscribe() {
             this.env.messaging.chatWindowManager.closeThread(this);
-            this.update({ isPendingPinned: false });
+            this.unpin();
         }
 
         //----------------------------------------------------------------------
@@ -1297,6 +1344,19 @@ function factory(dependencies) {
         }
 
         /**
+         * Handles change of pinned state coming from the server. Useful to
+         * clear pending state once server acknowledged the change.
+         *
+         * @private
+         * @see isPendingPinned
+         */
+        _onIsServerPinnedChanged() {
+            if (this.isServerPinned === this.isPendingPinned) {
+                this.update({ isPendingPinned: clear() });
+            }
+        }
+
+        /**
          * Handles change of fold state coming from the server. Useful to
          * synchronize corresponding chat window.
          *
@@ -1348,34 +1408,6 @@ function factory(dependencies) {
                     },
                 },
             });
-        }
-
-        /**
-         * @override
-         */
-        _updateAfter(previous) {
-            if (this.model !== 'mail.channel') {
-                // pin state only makes sense on channels
-                return;
-            }
-            if (
-                this.isPendingPinned !== undefined &&
-                previous.isPendingPinned !== this.isPendingPinned
-            ) {
-                this.notifyPinStateToServer();
-            }
-            if (this.isServerPinned === this.isPendingPinned) {
-                this.update({ isPendingPinned: clear() });
-            }
-        }
-
-        /**
-         * @override
-         */
-        _updateBefore() {
-            return {
-                isPendingPinned: this.isPendingPinned,
-            };
         }
 
         //----------------------------------------------------------------------
@@ -1700,6 +1732,16 @@ function factory(dependencies) {
         needactionMessages: many2many('mail.message', {
             compute: '_computeNeedactionMessages',
             dependencies: ['messages'],
+        }),
+        /**
+         * Not a real field, used to trigger `_onIsServerPinnedChanged` when one of
+         * the dependencies changes.
+         */
+        onIsServerPinnedChanged: attr({
+            compute: '_onIsServerPinnedChanged',
+            dependencies: [
+                'isServerPinned',
+            ],
         }),
         /**
          * Not a real field, used to trigger `_onServerFoldStateChanged` when one of

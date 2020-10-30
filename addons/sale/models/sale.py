@@ -332,6 +332,11 @@ class SaleOrder(models.Model):
                 raise UserError(_('You can not delete a sent quotation or a confirmed sales order. You must first cancel it.'))
         return super(SaleOrder, self).unlink()
 
+    def validate_taxes_on_sales_order(self):
+        # Override for correct taxcloud computation
+        # when using coupon and delivery
+        return True
+
     def _track_subtype(self, init_values):
         self.ensure_one()
         if 'state' in init_values and self.state == 'sale':
@@ -709,9 +714,37 @@ Reason(s) of this behavior could be:
             invoice_vals_list = new_invoice_vals_list
 
         # 3) Create invoices.
+
+        # As part of the invoice creation, we make sure the sequence of multiple SO do not interfere
+        # in a single invoice. Example:
+        # SO 1:
+        # - Section A (sequence: 10)
+        # - Product A (sequence: 11)
+        # SO 2:
+        # - Section B (sequence: 10)
+        # - Product B (sequence: 11)
+        #
+        # If SO 1 & 2 are grouped in the same invoice, the result will be:
+        # - Section A (sequence: 10)
+        # - Section B (sequence: 10)
+        # - Product A (sequence: 11)
+        # - Product B (sequence: 11)
+        #
+        # Resequencing should be safe, however we resequence only if there are less invoices than
+        # orders, meaning a grouping might have been done. This could also mean that only a part
+        # of the selected SO are invoiceable, but resequencing in this case shouldn't be an issue.
+        if len(invoice_vals_list) < len(self):
+            SaleOrderLine = self.env['sale.order.line']
+            for invoice in invoice_vals_list:
+                sequence = 1
+                for line in invoice['invoice_line_ids']:
+                    line[2]['sequence'] = SaleOrderLine._get_invoice_line_sequence(new=sequence, old=line[2]['sequence'])
+                    sequence += 1
+
         # Manage the creation of invoices in sudo because a salesperson must be able to generate an invoice from a
         # sale order without "billing" access rights. However, he should not be able to create an invoice from scratch.
         moves = self.env['account.move'].sudo().with_context(default_move_type='out_invoice').create(invoice_vals_list)
+
         # 4) Some moves might actually be refunds: convert them if the total amount is negative
         # We do this after the moves have been created since we need taxes, etc. to know if the total
         # is actually negative or not
@@ -1508,8 +1541,33 @@ class SaleOrderLine(models.Model):
                     # `price_reduce_taxexcl` cannot be used as it is computed from `price_subtotal` field. (see upper Note)
                     price_subtotal = line.tax_id.compute_all(price_subtotal)['total_excluded']
 
-                amount_to_invoice = price_subtotal - line.untaxed_amount_invoiced
+                if any(line.invoice_lines.mapped(lambda l: l.discount != line.discount)):
+                    # In case of re-invoicing with different discount we try to calculate manually the
+                    # remaining amount to invoice
+                    amount = 0
+                    for l in line.invoice_lines:
+                        if len(l.tax_ids.filtered(lambda tax: tax.price_include)) > 0:
+                            amount += l.tax_ids.compute_all(l.currency_id._convert(l.price_unit, line.currency_id, line.company_id, l.date or fields.Date.today(), round=False) * l.quantity)['total_excluded']
+                        else:
+                            amount += l.currency_id._convert(l.price_unit, line.currency_id, line.company_id, l.date or fields.Date.today(), round=False) * l.quantity
+
+                    amount_to_invoice = max(price_subtotal - amount, 0)
+                else:
+                    amount_to_invoice = price_subtotal - line.untaxed_amount_invoiced
+
             line.untaxed_amount_to_invoice = amount_to_invoice
+
+    def _get_invoice_line_sequence(self, new=0, old=0):
+        """
+        Method intended to be overridden in third-party module if we want to prevent the resequencing
+        of invoice lines.
+
+        :param int new:   the new line sequence
+        :param int old:   the old line sequence
+
+        :return:          the sequence of the SO line, by default the new one.
+        """
+        return new or old
 
     def _prepare_invoice_line(self, **optional_values):
         """

@@ -95,6 +95,15 @@ class MockModels {
                 },
                 records: [],
             },
+            // Fake model to simulate "hardcoded" commands from python
+            'mail.channel_command': {
+                fields: {
+                    channel_types: { type: 'binary' }, // array is expected
+                    help: { type: 'char' },
+                    name: { type: 'char' },
+                },
+                records: [],
+            },
             'mail.followers': {
                 fields: {
                     channel_id: { type: 'integer' },
@@ -136,6 +145,7 @@ class MockModels {
                     res_model_name: { string: "Res Model Name", type: 'char' },
                     starred_partner_ids: { string: "Favorited By", type: 'many2many', relation: 'res.partner' },
                     subject: { string: "Subject", type: 'char' },
+                    subtype_id: { string: "Subtype id", type: 'many2one', relation: 'mail.message.subtype' },
                     tracking_value_ids: { relation: 'mail.tracking.value', string: "Tracking values", type: 'one2many' },
                 },
                 records: [],
@@ -221,6 +231,17 @@ class MockModels {
                     im_status: { string: "IM Status", type: 'char' },
                     name: { string: "Name", type: 'char' },
                     partner_id: { string: "Related partners", type: 'many2one', relation: 'res.partner' },
+                },
+                records: [],
+            },
+            'res.fake': {
+                fields: {
+                    email_cc: { type: 'char' },
+                    partner_ids: {
+                        string: "Related partners",
+                        type: 'many2one',
+                        relation: 'res.partner'
+                    },
                 },
                 records: [],
             },

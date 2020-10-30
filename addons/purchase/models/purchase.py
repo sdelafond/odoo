@@ -924,10 +924,7 @@ class PurchaseOrderLine(models.Model):
                                                          subtype_id=self.env.ref('mail.mt_note').id)
         if 'qty_received' in values:
             for line in self:
-                if values['qty_received'] != line.qty_received and line.order_id.state == 'purchase':
-                    line.order_id.message_post_with_view('purchase.track_po_line_qty_received_template',
-                                                         values={'line': line, 'qty_received': values['qty_received']},
-                                                         subtype_id=self.env.ref('mail.mt_note').id)
+                line._track_qty_received(values['qty_received'])
         return super(PurchaseOrderLine, self).write(values)
 
     def unlink(self):
@@ -975,7 +972,6 @@ class PurchaseOrderLine(models.Model):
             return
 
         # Reset date, price and quantity since _onchange_quantity will provide default values
-        self.date_planned = self.order_id.date_planned or self._convert_to_middle_of_day(datetime.today())
         self.price_unit = self.product_qty = 0.0
 
         self._product_id_change()
@@ -1030,7 +1026,7 @@ class PurchaseOrderLine(models.Model):
             params=params)
 
         if seller or not self.date_planned:
-            self.date_planned = self.order_id.date_planned or self._get_date_planned(seller).strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+            self.date_planned = self._get_date_planned(seller).strftime(DEFAULT_SERVER_DATETIME_FORMAT)
 
         if not seller:
             self.price_unit = self.product_id.standard_price
@@ -1173,3 +1169,12 @@ class PurchaseOrderLine(models.Model):
 
     def _update_date_planned(self, updated_date):
         self.date_planned = updated_date
+
+    def _track_qty_received(self, new_qty):
+        self.ensure_one()
+        if new_qty != self.qty_received and self.order_id.state == 'purchase':
+            self.order_id.message_post_with_view(
+                'purchase.track_po_line_qty_received_template',
+                values={'line': self, 'qty_received': new_qty},
+                subtype_id=self.env.ref('mail.mt_note').id
+            )

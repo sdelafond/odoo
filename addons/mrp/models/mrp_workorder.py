@@ -75,13 +75,13 @@ class MrpWorkorder(models.Model):
         compute='_compute_dates_planned',
         inverse='_set_dates_planned',
         states={'done': [('readonly', True)], 'cancel': [('readonly', True)]},
-        store=True, tracking=True, copy=False)
+        store=True, copy=False)
     date_planned_finished = fields.Datetime(
         'Scheduled End Date',
         compute='_compute_dates_planned',
         inverse='_set_dates_planned',
         states={'done': [('readonly', True)], 'cancel': [('readonly', True)]},
-        store=True, tracking=True, copy=False)
+        store=True, copy=False)
     date_start = fields.Datetime(
         'Start Date', copy=False,
         states={'done': [('readonly', True)], 'cancel': [('readonly', True)]})
@@ -193,7 +193,7 @@ class MrpWorkorder(models.Model):
                 if conflicted_dict.get(wo.id):
                     infos.append({
                         'color': 'text-danger',
-                        'msg': _("Planned at the same time than other workorder(s) at %s", wo.workcenter_id.display_name)
+                        'msg': _("Planned at the same time as other workorder(s) at %s", wo.workcenter_id.display_name)
                     })
             color_icon = infos and infos[-1]['color'] or False
             wo.show_json_popover = bool(color_icon)

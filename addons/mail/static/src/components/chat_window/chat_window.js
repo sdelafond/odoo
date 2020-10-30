@@ -135,6 +135,9 @@ class ChatWindow extends Component {
         if (!this._threadRef.comp || !this.chatWindow.threadViewer) {
             return;
         }
+        this.chatWindow.threadViewer.saveThreadCacheScrollHeightAsInitial(
+            this._threadRef.comp.getScrollHeight()
+        );
         this.chatWindow.threadViewer.saveThreadCacheScrollPositionsAsInitial(
             this._threadRef.comp.getScrollTop()
         );
@@ -275,12 +278,6 @@ class ChatWindow extends Component {
      * @private
      */
     _onFocusout() {
-        if (this._inputRef.comp) {
-            this._inputRef.comp.focusout();
-        }
-        if (this._threadRef.comp) {
-            this._threadRef.comp.focusout();
-        }
         if (!this.chatWindow) {
             // ignore focus out due to record being deleted
             return;

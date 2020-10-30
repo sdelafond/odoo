@@ -1051,6 +1051,7 @@ const InputUserValueWidget = UnitUserValueWidget.extend({
         const unit = this.el.dataset.unit;
         this.inputEl = document.createElement('input');
         this.inputEl.setAttribute('type', 'text');
+        this.inputEl.setAttribute('autocomplete', 'chrome-off');
         this.inputEl.setAttribute('placeholder', this.el.getAttribute('placeholder') || '');
         this.inputEl.classList.toggle('text-left', !unit);
         this.inputEl.classList.toggle('text-right', !!unit);
@@ -1284,6 +1285,8 @@ const ColorpickerUserValueWidget = SelectUserValueWidget.extend({
     async setValue(color) {
         await this._super(...arguments);
 
+        await this._renderColorPalette();
+
         const classes = weUtils.computeColorClasses(this.colorPalette.getColorNames());
         this.colorPreviewEl.classList.remove(...classes);
         this.colorPreviewEl.style.removeProperty('background-color');
@@ -1297,8 +1300,6 @@ const ColorpickerUserValueWidget = SelectUserValueWidget.extend({
                 this.colorPreviewEl.classList.add(`bg-${this._value}`);
             }
         }
-
-        await this._renderColorPalette();
     },
 
 
@@ -1993,6 +1994,14 @@ const SnippetOptionWidget = Widget.extend({
      * @returns {Promise|undefined}
      */
     selectStyle: function (previewMode, widgetValue, params) {
+        // Disable all transitions for the duration of the method as many
+        // comparisons will be done on the element to know if applying a
+        // property has an effect or not. Also, changing a css property via the
+        // editor should not show any transition as previews would not be done
+        // immediately, which is not good for the user experience.
+        this.$target[0].classList.add('o_we_force_no_transition');
+        const _restoreTransitions = () => this.$target[0].classList.remove('o_we_force_no_transition');
+
         if (params.cssProperty === 'background-color') {
             this.$target.trigger('background-color-event', previewMode);
         }
@@ -2018,6 +2027,7 @@ const SnippetOptionWidget = Widget.extend({
                 // Those are the special color combinations classes. Just have
                 // to add it (and adding the potential extra class) then leave.
                 this.$target[0].classList.add('o_cc', `o_cc${widgetValue}`, params.extraClass);
+                _restoreTransitions();
                 return;
             }
             if (params.colorNames.includes(widgetValue)) {
@@ -2029,6 +2039,7 @@ const SnippetOptionWidget = Widget.extend({
                     // property we are editing, nothing more has to be done.
                     // (except adding the extra class)
                     this.$target.addClass(params.extraClass);
+                    _restoreTransitions();
                     return;
                 }
                 // Otherwise, it means that class probably does not exist,
@@ -2084,6 +2095,8 @@ const SnippetOptionWidget = Widget.extend({
         if (params.extraClass) {
             this.$target.toggleClass(params.extraClass, hasUserValue);
         }
+
+        _restoreTransitions();
     },
 
     //--------------------------------------------------------------------------
@@ -2361,6 +2374,12 @@ const SnippetOptionWidget = Widget.extend({
                     }
                 }
 
+                // Disable all transitions for the duration of the style check
+                // as we want to know the final value of a property to properly
+                // update the UI.
+                this.$target[0].classList.add('o_we_force_no_transition');
+                const _restoreTransitions = () => this.$target[0].classList.remove('o_we_force_no_transition');
+
                 const styles = window.getComputedStyle(this.$target[0]);
                 const cssProps = weUtils.CSS_SHORTHANDS[params.cssProperty] || [params.cssProperty];
                 const cssValues = cssProps.map(cssProp => {
@@ -2383,6 +2402,9 @@ const SnippetOptionWidget = Widget.extend({
                 if (cssValues.length === 2 && weUtils.areCssValuesEqual(cssValues[1], cssValues[0], params.cssProperty, this.$target)) {
                     cssValues.pop();
                 }
+
+                _restoreTransitions();
+
                 return cssValues.join(' ');
             }
         }
@@ -2908,7 +2930,7 @@ registry.sizing = SnippetOptionWidget.extend({
             };
             var bodyMouseUp = function () {
                 $body.off('mousemove', bodyMouseMove);
-                $body.off('mouseup', bodyMouseUp);
+                $(window).off('mouseup', bodyMouseUp);
                 $body.removeClass(cursor);
                 $handle.removeClass('o_active');
 
@@ -2929,7 +2951,7 @@ registry.sizing = SnippetOptionWidget.extend({
                 }, 0);
             };
             $body.on('mousemove', bodyMouseMove);
-            $body.on('mouseup', bodyMouseUp);
+            $(window).on('mouseup', bodyMouseUp);
         });
 
         return def;
@@ -3174,7 +3196,7 @@ const ImageHandlerOption = SnippetOptionWidget.extend({
             case 'glFilter':
                 return img.dataset.glFilter || "";
             case 'setQuality':
-                return img.dataset.quality || 95;
+                return img.dataset.quality || 75;
             case 'customFilter': {
                 const {filterProperty} = params;
                 const options = JSON.parse(img.dataset.filterOptions || "{}");
@@ -3269,6 +3291,18 @@ const ImageHandlerOption = SnippetOptionWidget.extend({
         this.originalSrc = img.dataset.originalSrc;
     },
     /**
+     * Sets the image's width to its suggested size.
+     *
+     * @private
+     */
+    async _autoOptimizeImage() {
+        await this._loadImageInfo();
+        await this._rerenderXML();
+        this._getImg().dataset.resizeWidth = this.optimizedWidth;
+        await this._applyOptions();
+        await this.updateUI();
+    },
+    /**
      * Returns the image that is currently being modified.
      *
      * @private
@@ -3348,11 +3382,7 @@ registry.ImageOptimize = ImageHandlerOption.extend({
      */
     async _onImageChanged(ev) {
         this.trigger_up('snippet_edition_request', {exec: async () => {
-            await this._loadImageInfo();
-            await this._rerenderXML();
-            this._getImg().dataset.resizeWidth = this.optimizedWidth;
-            await this._applyOptions();
-            await this.updateUI();
+            await this._autoOptimizeImage();
             this.trigger_up('cover_update');
         }});
     },
@@ -3453,8 +3483,7 @@ registry.BackgroundOptimize = ImageHandlerOption.extend({
     async _onBackgroundChanged(ev, previewMode) {
         if (!previewMode) {
             this.trigger_up('snippet_edition_request', {exec: async () => {
-                await this._loadImageInfo();
-                await this._rerenderXML();
+                await this._autoOptimizeImage();
             }});
         }
     },
@@ -4073,14 +4102,17 @@ registry.BackgroundPosition = SnippetOptionWidget.extend({
         });
 
         const position = this.$target.css('background-position').split(' ').map(v => parseInt(v));
-        // Convert % values to pixels (because mouse movement is in pixels)
         const delta = this._getBackgroundDelta();
+        // originalPosition kept in % for when movement in one direction doesn't make sense
         this.originalPosition = {
+            left: position[0],
+            top: position[1],
+        };
+        // Convert % values to pixels for current position because mouse movement is in pixels
+        this.currentPosition = {
             left: position[0] / 100 * delta.x || 0,
             top: position[1] / 100 * delta.y || 0,
         };
-        this.currentPosition = _.clone(this.originalPosition);
-
         this._toggleBgOverlay(true);
     },
     /**
@@ -4194,6 +4226,12 @@ registry.BackgroundPosition = SnippetOptionWidget.extend({
 
         // Create empty clone of $target with same display size, make it draggable and give it a tooltip.
         this.$bgDragger = this.$target.clone().empty();
+        // Some CSS child selector rules will not be applied since the clone has a different container from $target.
+        // The background-attachment property should be the same in both $target & $bgDragger, this will keep the
+        // preview more "wysiwyg" instead of getting different result when bg position saved (e.g. parallax snippet)
+        // TODO: improve this to copy all style from $target and override it with overlay related style (copying all
+        // css into $bgDragger will not work since it will change overlay content style too).
+        this.$bgDragger.css('background-attachment', this.$target.css('background-attachment'));
         this.$bgDragger.on('mousedown', this._onDragBackgroundStart.bind(this));
         this.$bgDragger.tooltip({
             title: 'Click and drag the background to adjust its position!',
