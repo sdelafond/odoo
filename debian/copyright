@@ -2,6 +2,7 @@ Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Contact: Odoo <info@odoo.com>
 Files-Excluded: addons/pos_epson_printer
                 addons/pos_six/static
+		doc/_extensions/odoo_ext/static/jquery.min.js
 
 Files: *
 Copyright: Copyright (C) 2004-2015 Odoo SA. (www.odoo.com)

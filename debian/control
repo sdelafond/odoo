@@ -18,6 +18,7 @@ Depends:
  fonts-inconsolata,
  fonts-font-awesome,
  fonts-roboto-unhinted,
+ libjs-jquery,
  libjs-underscore,
  lsb-base,
  postgresql-client,

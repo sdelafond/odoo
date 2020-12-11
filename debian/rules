@@ -7,6 +7,7 @@ export PYBUILD_DISABLE=test
 	dh ${@} --with=python3 --buildsystem=pybuild
 
 override_dh_auto_build:
+	ln -sf /usr/share/javascript/jquery/jquery.min.js doc/_extensions/odoo_ext/static/jquery.min.js
 	cp -r addons/* odoo/addons/
 	dh_auto_build
 
