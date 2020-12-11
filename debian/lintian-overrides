@@ -2,3 +2,13 @@
 odoo: spelling-error-in-copyright Ang And
 odoo: spelling-error-in-copyright Filsystem Filesystem
 
+# placeholder test.external.link
+odoo: privacy-breach-generic usr/lib/python3/dist-packages/odoo/addons/test_assetsbundle/views/views.xml [<link rel="stylesheet" href="http://test.external.link/style1.css"/>] (http://test.external.link/style1.css)
+odoo: privacy-breach-generic usr/lib/python3/dist-packages/odoo/addons/test_assetsbundle/views/views.xml [<link rel="stylesheet" href="http://test.external.link/style2.css"/>] (http://test.external.link/style2.css)
+odoo: privacy-breach-generic usr/lib/python3/dist-packages/odoo/addons/test_assetsbundle/views/views.xml [<script type="text/javascript" src="http://test.external.link/javascript1.js">] (http://test.external.link/javascript1.js)
+odoo: privacy-breach-generic usr/lib/python3/dist-packages/odoo/addons/test_assetsbundle/views/views.xml [<script type="text/javascript" src="http://test.external.link/javascript2.js">] (http://test.external.link/javascript2.js)
+odoo: privacy-breach-generic usr/lib/python3/dist-packages/odoo/addons/website/tests/template_qweb_test.xml [<img src="http://test.external.link/img.png"/>] (http://test.external.link/img.png)
+odoo: privacy-breach-generic usr/lib/python3/dist-packages/odoo/addons/website/tests/template_qweb_test.xml [<link rel="stylesheet" href="http://test.external.link/style1.css"/>] (http://test.external.link/style1.css)
+odoo: privacy-breach-generic usr/lib/python3/dist-packages/odoo/addons/website/tests/template_qweb_test.xml [<link rel="stylesheet" href="http://test.external.link/style2.css"/>] (http://test.external.link/style2.css)
+odoo: privacy-breach-generic usr/lib/python3/dist-packages/odoo/addons/website/tests/template_qweb_test.xml [<script type="text/javascript" src="http://test.external.link/javascript1.js">] (http://test.external.link/javascript1.js)
+odoo: privacy-breach-generic usr/lib/python3/dist-packages/odoo/addons/website/tests/template_qweb_test.xml [<script type="text/javascript" src="http://test.external.link/javascript2.js">] (http://test.external.link/javascript2.js)
