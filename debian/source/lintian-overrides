@@ -1,0 +1,14 @@
+# regular, non-minified JS
+odoo: source-is-missing addons/web/static/lib/ace/ace.odoo-custom.js line length is 951 characters (>512)
+odoo source: source-is-missing addons/web/static/lib/ace/mode-js.js line length is 1787 characters (>512)
+odoo source: source-is-missing addons/web/static/lib/pdfjs/build/pdf.js line length is 697 characters (>512)
+odoo source: source-is-missing addons/web/static/lib/pdfjs/build/pdf.worker.js line length is 351 characters (>256)
+odoo source: source-is-missing addons/web/static/lib/pdfjs/web/viewer.js line length is 409 characters (>256)
+odoo source: source-is-missing addons/web/static/lib/select2/select2.js line length is 11068 characters (>512)
+odoo source: source-is-missing addons/web/static/lib/tempusdominus/tempusdominus.js line length is 564 characters (>512)
+odoo source: source-is-missing addons/web/static/tests/services/notification_service_tests.js line length is 550 characters (>512)
+odoo source: source-is-missing addons/web_editor/static/lib/cropperjs/cropper.js line length is 1339 characters (>512)
+odoo source: source-is-missing addons/website/static/src/snippets/s_google_map/000.js line length is 1393 characters (>512)
+
+# this file contains a single comment but its presence is required
+odoo source: source-is-missing addons/website/static/lib/jstz.min.js
