@@ -1,5 +1,7 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Contact: Odoo <info@odoo.com>
+Files-Excluded: addons/pos_epson_printer
+                addons/pos_six/static
 
 Files: *
 Copyright: Copyright (C) 2004-2015 Odoo SA. (www.odoo.com)
@@ -207,10 +209,6 @@ License: LGPL-3+
 
 Files: addons/point_of_sale/static/lib/html2canvas.js
 Copyright: 2013 Niklas von Hertzen; 2010 John Resig
-License: MIT
-
-Files: addons/pos_epson_printer/static/lib/epos-2.12.0.js
-Copyright: Seiko Epson Corporation 2016 - 2019; 2011 LearnBoost <dev@learnboost.com>
 License: MIT
 
 Files: addons/pos_restaurant/static/lib/js/jquery.ui.touch-punch.js
