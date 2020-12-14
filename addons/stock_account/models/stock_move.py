@@ -21,10 +21,7 @@ class StockMove(models.Model):
 
     def action_get_account_moves(self):
         self.ensure_one()
-        action_ref = self.env.ref('account.action_move_journal_line')
-        if not action_ref:
-            return False
-        action_data = action_ref.read()[0]
+        action_data = self.env['ir.actions.act_window']._for_xml_id('account.action_move_journal_line')
         action_data['domain'] = [('id', 'in', self.account_move_ids.ids)]
         return action_data
 
@@ -237,7 +234,7 @@ class StockMove(models.Model):
         # Init a dict that will group the moves by valuation type, according to `move._is_valued_type`.
         valued_moves = {valued_type: self.env['stock.move'] for valued_type in self._get_valued_types()}
         for move in self:
-            if float_is_zero(move.quantity_done, precision_rounding=move.product_uom.rounding):
+            if float_is_zero(move.quantity_done, precision_rounding=move.product_uom.rounding) or move.product_id.type == 'consu':
                 continue
             for valued_type in self._get_valued_types():
                 if getattr(move, '_is_%s' % valued_type)():

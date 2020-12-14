@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-02 14:12+0000\n"
+"POT-Creation-Date: 2020-11-27 14:12+0000\n"
 "PO-Revision-Date: 2020-09-07 08:15+0000\n"
 "Last-Translator: Sergio Zanchetta <primes2h@gmail.com>, 2020\n"
 "Language-Team: Italian (https://www.transifex.com/odoo/teams/41243/it/)\n"
@@ -40,11 +40,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:payment.field_payment_transaction__invoice_ids_nbr
 msgid "# of Invoices"
 msgstr "N. di fatture"
-
-#. module: payment
-#: model_terms:ir.ui.view,arch_db:payment.payment_confirmation_status
-msgid "&amp;times;"
-msgstr "&amp;times;"
 
 #. module: payment
 #: model:ir.model.fields,field_description:payment.field_payment_transaction__html_3ds
@@ -121,13 +116,6 @@ msgid "<i class=\"fa fa-trash\"/> Delete"
 msgstr "<i class=\"fa fa-trash\"/> Elimina"
 
 #. module: payment
-#. openerp-web
-#: code:addons/payment/static/src/js/payment_form.js:0
-#, python-format
-msgid "<p>This card is currently linked to the following records:<p/>"
-msgstr "<p>Questa carta è attualmente collegata ai seguenti record:<p/>"
-
-#. module: payment
 #: model_terms:ir.ui.view,arch_db:payment.payment_tokens_list
 msgid "<small class=\"text-muted\">(Some fees may apply)</small>"
 msgstr ""
@@ -166,7 +154,7 @@ msgstr ""
 #. module: payment
 #: code:addons/payment/models/account_invoice.py:0
 #, python-format
-msgid "A journal must be specified of the acquirer %s."
+msgid "A journal must be specified for the acquirer %s."
 msgstr "Deve essere specificato un registro per il sistema %s."
 
 #. module: payment
@@ -1830,6 +1818,13 @@ msgid ""
 msgstr ""
 
 #. module: payment
+#. openerp-web
+#: code:addons/payment/static/src/js/payment_form.js:0
+#, python-format
+msgid "This card is currently linked to the following records:"
+msgstr ""
+
+#. module: payment
 #: model:ir.model.fields,help:payment.field_payment_icon__image
 msgid ""
 "This field holds the image used for this payment icon, limited to "
@@ -1982,16 +1977,10 @@ msgstr "Attenzione!"
 #. module: payment
 #. openerp-web
 #: code:addons/payment/static/src/js/payment_form.js:0
+#: code:addons/payment/static/src/js/payment_form.js:0
 #, python-format
 msgid "We are not able to add your payment method at the moment."
 msgstr "Impossibile, al momento, aggiungere il metodo di pagamento."
-
-#. module: payment
-#. openerp-web
-#: code:addons/payment/static/src/js/payment_form.js:0
-#, python-format
-msgid "We are not able to add your payment method at the moment.</p>"
-msgstr "Impossibile, al momento, aggiungere il metodo di pagamento.</p>"
 
 #. module: payment
 #. openerp-web
@@ -2203,7 +2192,7 @@ msgstr ""
 #: code:addons/payment/static/src/js/payment_form.js:0
 #, python-format
 msgid "e.g. Your credit card details are wrong. Please verify."
-msgstr "es. gli estremi della carta di credito sono errati, verificarli."
+msgstr "es. Estremi della carta di credito errati, verificarli."
 
 #. module: payment
 #: model_terms:ir.ui.view,arch_db:payment.payment_acquirer_onboarding_wizard_form

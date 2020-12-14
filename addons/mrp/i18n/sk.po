@@ -13,15 +13,15 @@
 # Jan Prokop, 2020
 # Alexandra Brencicova <alexandra.brencicova@gmail.com>, 2020
 # Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>, 2020
-# Damian Brencic <brencicdamian12313@gmail.com>, 2020
 # karolína schusterová <karolina.schusterova@vdp.sk>, 2020
+# Damian Brencic <brencicdamian12313@gmail.com>, 2020
 # Rastislav Brencic <rastislav.brencic@azet.sk>, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-29 13:45+0000\n"
+"POT-Creation-Date: 2020-10-29 15:48+0000\n"
 "PO-Revision-Date: 2020-09-07 08:14+0000\n"
 "Last-Translator: Rastislav Brencic <rastislav.brencic@azet.sk>, 2020\n"
 "Language-Team: Slovak (https://www.transifex.com/odoo/teams/41243/sk/)\n"
@@ -1625,12 +1625,12 @@ msgstr ""
 #. module: mrp
 #: model:ir.model.fields,field_description:mrp.field_mrp_document__datas
 msgid "File Content (base64)"
-msgstr ""
+msgstr "Obsah súboru (base64)"
 
 #. module: mrp
 #: model:ir.model.fields,field_description:mrp.field_mrp_document__raw
 msgid "File Content (raw)"
-msgstr ""
+msgstr "Obsah súboru (nespracovaný)"
 
 #. module: mrp
 #: model:ir.model.fields,field_description:mrp.field_mrp_document__file_size
@@ -1728,7 +1728,7 @@ msgstr "Úžasná ikona fronty napr. fa-tasks"
 #. module: mrp
 #: model_terms:ir.ui.view,arch_db:mrp.view_mrp_consumption_warning_form
 msgid "Force"
-msgstr ""
+msgstr "Sila"
 
 #. module: mrp
 #: model_terms:ir.ui.view,arch_db:mrp.oee_search_view
@@ -1737,10 +1737,6 @@ msgstr ""
 
 #. module: mrp
 #: model_terms:ir.ui.view,arch_db:mrp.mrp_unbuild_search_view
-msgid "Future Activitie"
-msgstr ""
-
-#. module: mrp
 #: model_terms:ir.ui.view,arch_db:mrp.view_mrp_production_filter
 msgid "Future Activities"
 msgstr "Budúce aktivity"
@@ -2545,7 +2541,7 @@ msgstr "Označiť ako hotovo"
 #. module: mrp
 #: model:ir.model.fields,field_description:mrp.field_res_config_settings__module_mrp_mps
 msgid "Master Production Schedule"
-msgstr ""
+msgstr "Hlavný harmonogram výroby"
 
 #. module: mrp
 #: model:ir.model.fields,field_description:mrp.field_mrp_production__reservation_state
@@ -2591,7 +2587,7 @@ msgstr "Rôzne"
 #. module: mrp
 #: model:ir.model.fields,field_description:mrp.field_mrp_immediate_production__mo_ids
 msgid "Mo"
-msgstr ""
+msgstr "Po"
 
 #. module: mrp
 #: model:ir.model.fields,field_description:mrp.field_mrp_production__move_byproduct_ids
@@ -3063,7 +3059,7 @@ msgstr "Plánovaný dátum"
 #. module: mrp
 #: code:addons/mrp/models/mrp_workorder.py:0
 #, python-format
-msgid "Planned at the same time than other workorder(s) at %s"
+msgid "Planned at the same time as other workorder(s) at %s"
 msgstr ""
 
 #. module: mrp
@@ -3120,7 +3116,7 @@ msgstr ""
 #. module: mrp
 #: model_terms:ir.ui.view,arch_db:mrp.res_config_settings_view_form
 msgid ""
-"Prevent manufacturing users to modify quantities to consume, unless a "
+"Prevent manufacturing users from modifying quantities to consume, unless a "
 "manager has unlocked the document"
 msgstr ""
 
@@ -3218,7 +3214,7 @@ msgstr ""
 #. module: mrp
 #: model:ir.model.fields,field_description:mrp.field_res_config_settings__module_mrp_plm
 msgid "Product Lifecycle Management (PLM)"
-msgstr ""
+msgstr "Správa životného cyklu produktu (PLM)"
 
 #. module: mrp
 #: model_terms:ir.ui.view,arch_db:mrp.mrp_production_form_view
@@ -4133,7 +4129,7 @@ msgstr ""
 #. module: mrp
 #: model:ir.model.fields,help:mrp.field_mrp_document__res_id
 msgid "The record id this is attached to."
-msgstr ""
+msgstr "ID záznamu, ku ktorému je pripojený."
 
 #. module: mrp
 #: code:addons/mrp/models/mrp_production.py:0
@@ -4315,7 +4311,7 @@ msgstr "Na spotrebovanie"
 #. module: mrp
 #: model_terms:ir.ui.view,arch_db:mrp.view_mrp_production_filter
 msgid "To Do"
-msgstr "Úloha"
+msgstr "Úlohy"
 
 #. module: mrp
 #: model_terms:ir.ui.view,arch_db:mrp.mrp_workcenter_kanban

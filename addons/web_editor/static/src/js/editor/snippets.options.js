@@ -4,6 +4,7 @@ odoo.define('web_editor.snippets.options', function (require) {
 var core = require('web.core');
 const {ColorpickerWidget} = require('web.Colorpicker');
 const Dialog = require('web.Dialog');
+const rpc = require('web.rpc');
 const time = require('web.time');
 var Widget = require('web.Widget');
 var ColorPaletteWidget = require('web_editor.ColorPalette').ColorPaletteWidget;
@@ -81,17 +82,25 @@ function _buildTitleElement(title) {
  * @param {string} src
  * @returns {HTMLElement}
  */
+const _buildImgElementCache = {};
 async function _buildImgElement(src) {
-    if (src.split('.').pop() === 'svg') {
-        const response = await window.fetch(src);
-        const text = await response.text();
-        const parser = new window.DOMParser();
-        const xmlDoc = parser.parseFromString(text, 'text/xml');
-        return xmlDoc.getElementsByTagName('svg')[0];
+    if (!(src in _buildImgElementCache)) {
+        _buildImgElementCache[src] = (async () => {
+            if (src.split('.').pop() === 'svg') {
+                const response = await window.fetch(src);
+                const text = await response.text();
+                const parser = new window.DOMParser();
+                const xmlDoc = parser.parseFromString(text, 'text/xml');
+                return xmlDoc.getElementsByTagName('svg')[0];
+            } else {
+                const imgEl = document.createElement('img');
+                imgEl.src = src;
+                return imgEl;
+            }
+        })();
     }
-    const imgEl = document.createElement('img');
-    imgEl.src = src;
-    return imgEl;
+    const node = await _buildImgElementCache[src];
+    return node.cloneNode(true);
 }
 /**
  * Build the correct DOM for a we-row element.
@@ -264,9 +273,22 @@ const UserValueWidget = Widget.extend({
      * Closes the widget (only meaningful for widgets that can be closed).
      */
     close: function () {
+        if (!this.el) {
+            // In case the method is called while the widget is not fully
+            // initialized yet. No need to prevent that case: asking a non
+            // initialized widget to close itself should just not be a problem
+            // and just be ignored.
+            return;
+        }
         this.trigger_up('user_value_widget_closing');
         this.el.classList.remove('o_we_widget_opened');
         this._userValueWidgets.forEach(widget => widget.close());
+    },
+    /**
+     * Simulates the correct event on the element to make it active.
+     */
+    enable() {
+        this.$el.click();
     },
     /**
      * @param {string} name
@@ -707,6 +729,17 @@ const CheckboxUserValueWidget = ButtonUserValueWidget.extend({
     },
 
     //--------------------------------------------------------------------------
+    // Public
+    //--------------------------------------------------------------------------
+
+    /**
+     * @override
+     */
+    enable() {
+        this.$('we-checkbox').click();
+    },
+
+    //--------------------------------------------------------------------------
     // Handlers
     //--------------------------------------------------------------------------
 
@@ -843,7 +876,9 @@ const SelectUserValueWidget = BaseSelectionUserValueWidget.extend({
      */
     close: function () {
         this._super(...arguments);
-        this.menuTogglerEl.classList.remove('active');
+        if (this.menuTogglerEl) {
+            this.menuTogglerEl.classList.remove('active');
+        }
     },
     /**
      * @override
@@ -1540,7 +1575,7 @@ const DatetimePickerUserValueWidget = InputUserValueWidget.extend({
         this.inputEl.setAttribute('data-target', '#' + datetimePickerId);
 
         const datepickersOptions = {
-            minDate: moment({ y: 1 }),
+            minDate: moment({ y: 1000 }),
             maxDate: moment().add(200, 'y'),
             calendarWeeks: true,
             defaultDate: moment().format(),
@@ -3111,15 +3146,6 @@ const ImageHandlerOption = SnippetOptionWidget.extend({
     async willStart() {
         const _super = this._super.bind(this);
         await this._loadImageInfo();
-        // Make sure image is loaded because we need its naturalWidth to render XML
-        const img = this._getImg();
-        await new Promise((resolve, reject) => {
-            if (img.complete) {
-                return resolve();
-            }
-            img.addEventListener('load', resolve, {once: true});
-            img.addEventListener('error', resolve, {once: true});
-        });
         return _super(...arguments);
     },
 
@@ -3186,8 +3212,19 @@ const ImageHandlerOption = SnippetOptionWidget.extend({
     /**
      * @override
      */
-    _computeWidgetState(methodName, params) {
+    async _computeWidgetState(methodName, params) {
         const img = this._getImg();
+
+        // Make sure image is loaded because we need its naturalWidth
+        await new Promise((resolve, reject) => {
+            if (img.complete) {
+                resolve();
+                return;
+            }
+            img.addEventListener('load', resolve, {once: true});
+            img.addEventListener('error', resolve, {once: true});
+        });
+
         switch (methodName) {
             case 'selectWidth':
                 return img.naturalWidth;
@@ -3611,7 +3648,7 @@ registry.BackgroundToggler = SnippetOptionWidget.extend({
             // image: remove the background filter option.
             // TODO there probably is a better system to implement to do that
             const widget = this._requestUserValueWidgets('bg_filter_toggle_opt')[0];
-            widget.$el.click();
+            widget.enable();
         }
     },
 });
@@ -3819,10 +3856,14 @@ registry.BackgroundShape = SnippetOptionWidget.extend({
                 return color || '';
             }
             case 'flipX': {
-                return this.$target.find('> .o_we_shape.o_we_flip_x').length !== 0;
+                // Compat: flip classes are no longer used but may be present in client db
+                const hasFlipClass = this.$target.find('> .o_we_shape.o_we_flip_x').length !== 0;
+                return hasFlipClass || this._getShapeData().flip.includes('x');
             }
             case 'flipY': {
-                return this.$target.find('> .o_we_shape.o_we_flip_y').length !== 0;
+                // Compat: flip classes are no longer used but may be present in client db
+                const hasFlipClass = this.$target.find('> .o_we_shape.o_we_flip_y').length !== 0;
+                return hasFlipClass || this._getShapeData().flip.includes('y');
             }
         }
         return this._super(...arguments);
@@ -3884,55 +3925,92 @@ registry.BackgroundShape = SnippetOptionWidget.extend({
      * @param {function} computeShapeData function to compute the new shape data.
      */
     _handlePreviewState(previewMode, computeShapeData) {
-        if (previewMode === 'reset') {
-            if (this.prevShape) {
-                this.$target[0].dataset.oeShapeData = this.prevShape;
-            } else {
-                delete this.$target[0].dataset.oeShapeData;
+        const target = this.$target[0];
+        const insertShapeContainer = newContainer => {
+            const shapeContainer = target.querySelector(':scope > .o_we_shape');
+            if (shapeContainer) {
+                shapeContainer.remove();
             }
+            if (newContainer) {
+                const preShapeLayerElement = this._getLastPreShapeLayerElement();
+                if (preShapeLayerElement) {
+                    $(preShapeLayerElement).after(newContainer);
+                } else {
+                    this.$target.prepend(newContainer);
+                }
+            }
+            return newContainer;
+        };
+
+        let changedShape = false;
+        if (previewMode === 'reset') {
+            insertShapeContainer(this.prevShapeContainer);
+            if (this.prevShape) {
+                target.dataset.oeShapeData = this.prevShape;
+            } else {
+                delete target.dataset.oeShapeData;
+            }
+            return;
         } else {
             if (previewMode === true) {
-                this.prevShape = this.$target[0].dataset.oeShapeData;
+                const shapeContainer = target.querySelector(':scope > .o_we_shape');
+                this.prevShapeContainer = shapeContainer && shapeContainer.cloneNode(true);
+                this.prevShape = target.dataset.oeShapeData;
             }
+            const curShapeData = target.dataset.oeShapeData || {};
             const newShapeData = computeShapeData();
+            const {shape: curShape} = curShapeData;
+            changedShape = newShapeData.shape !== curShape;
             this._markShape(newShapeData);
-            if (previewMode === false) {
-                this.prevShape = this.$target[0].dataset.oeShapeData;
-                if (newShapeData.hasOwnProperty('shape')) {
-                    // Need to rerender for correct number of colorpickers
-                    this.rerender = true;
-                }
+            if (previewMode === false && changedShape) {
+                // Need to rerender for correct number of colorpickers
+                this.rerender = true;
             }
         }
 
         // Updates/removes the shape container as needed and gives it the
         // correct background shape
-        const json = this.$target[0].dataset.oeShapeData;
+        const json = target.dataset.oeShapeData;
         const {shape, colors, flip = []} = json ? JSON.parse(json) : {};
-        const target = this.$target[0];
         let shapeContainer = target.querySelector(':scope > .o_we_shape');
         if (!shape) {
-            if (shapeContainer) {
-                shapeContainer.remove();
-            }
-            return;
+            return insertShapeContainer(null);
+        }
+        // When changing shape we want to reset the shape container (for transparency color)
+        if (changedShape) {
+            shapeContainer = insertShapeContainer(null);
         }
         if (!shapeContainer) {
-            shapeContainer = document.createElement('div');
-            const preShapeLayerElement = this._getLastPreShapeLayerElement();
-            if (preShapeLayerElement) {
-                $(preShapeLayerElement).after(shapeContainer);
-            } else {
-                target.prepend(shapeContainer);
-            }
+            shapeContainer = insertShapeContainer(document.createElement('div'));
             target.style.position = 'relative';
+            shapeContainer.className = `o_we_shape o_${shape.replace(/\//g, '_')}`;
         }
-        shapeContainer.className = `o_we_shape o_${shape.replace(/\//g, '_')}`;
-        flip.forEach(dir => {
-            shapeContainer.classList.add(`o_we_flip_${dir}`);
-        });
-        // Custom colors, overwrite shape that is set by the class
-        $(shapeContainer).css('background-image', colors ? `url("${this._getShapeSrc()}")` : '');
+        // Compat: remove old flip classes as flipping is now done inside the svg
+        shapeContainer.classList.remove('o_we_flip_x', 'o_we_flip_y');
+
+        if (colors || flip.length) {
+            // Custom colors/flip, overwrite shape that is set by the class
+            $(shapeContainer).css('background-image', `url("${this._getShapeSrc()}")`);
+            shapeContainer.style.backgroundPosition = '';
+            if (flip.length) {
+                let [xPos, yPos] = $(shapeContainer)
+                    .css('background-position')
+                    .split(' ')
+                    .map(p => parseFloat(p));
+                // -X + 2*Y is a symmetry of X around Y, this is a symmetry around 50%
+                xPos = flip.includes('x') ? -xPos + 100 : xPos;
+                yPos = flip.includes('y') ? -yPos + 100 : yPos;
+                shapeContainer.style.backgroundPosition = `${xPos}% ${yPos}%`;
+            }
+        } else {
+            // Remove custom bg image and let the shape class set the bg shape
+            $(shapeContainer).css('background-image', '');
+            $(shapeContainer).css('background-position', '');
+        }
+        if (previewMode === false) {
+            this.prevShapeContainer = shapeContainer.cloneNode(true);
+            this.prevShape = target.dataset.oeShapeData;
+        }
     },
     /**
      * Overwrites shape properties with the specified data.
@@ -3971,16 +4049,19 @@ registry.BackgroundShape = SnippetOptionWidget.extend({
      * @private
      */
     _getShapeSrc() {
-        const {shape, colors} = this._getShapeData();
+        const {shape, colors, flip} = this._getShapeData();
         if (!shape) {
             return '';
         }
-        const queryString = Object.entries(colors)
+        const searchParams = Object.entries(colors)
             .map(([colorName, colorValue]) => {
                 const encodedCol = encodeURIComponent(colorValue);
                 return `${colorName}=${encodedCol}`;
-            }).join('&');
-        return `/web_editor/shape/${shape}.svg?${queryString}`;
+            });
+        if (flip.length) {
+            searchParams.push(`flip=${flip.sort().join('')}`);
+        }
+        return `/web_editor/shape/${shape}.svg?${searchParams.join('&')}`;
     },
     /**
      * Retrieves current shape data from the target's dataset.
@@ -3996,7 +4077,7 @@ registry.BackgroundShape = SnippetOptionWidget.extend({
             flip: [],
         };
         const json = target.dataset.oeShapeData;
-        return json ? Object.assign(defaultData, JSON.parse(json)) : defaultData;
+        return json ? Object.assign(defaultData, JSON.parse(json.replace(/'/g, '"'))) : defaultData;
     },
     /**
      * Returns the default colors for the currently selected shape.
@@ -4594,27 +4675,54 @@ registry.SnippetSave = SnippetOptionWidget.extend({
                     classes: 'btn-primary',
                     close: true,
                     click: async () => {
-                        const snippetName = dialog.el.querySelector('.o_we_snippet_name_input').value;
-                        const targetCopyEl = this.$target[0].cloneNode(true);
-                        delete targetCopyEl.dataset.name;
+                        const save = await new Promise(resolve => {
+                            Dialog.confirm(this, _t("To save a snippet, we need to save all your previous modifications and reload the page."), {
+                                buttons: [
+                                    {
+                                        text: _t("Save and Reload"),
+                                        classes: 'btn-primary',
+                                        close: true,
+                                        click: () => resolve(true),
+                                    }, {
+                                        text: _t("Cancel"),
+                                        close: true,
+                                        click: () => resolve(false),
+                                    }
+                                ]
+                            });
+                        });
+                        if (!save) {
+                            return;
+                        }
                         const snippetKey = this.$target[0].dataset.snippet;
                         let thumbnailURL;
                         this.trigger_up('snippet_thumbnail_url_request', {
                             key: snippetKey,
                             onSuccess: url => thumbnailURL = url,
                         });
-                        await this._rpc({
-                            model: 'ir.ui.view',
-                            method: 'save_snippet',
-                            kwargs: {
-                                'name': snippetName,
-                                'arch': targetCopyEl.outerHTML,
-                                'template_key': this.options.snippets,
-                                'snippet_key': snippetKey,
-                                'thumbnail_url': thumbnailURL,
+                        this.trigger_up('request_save', {
+                            reloadEditor: true,
+                            onSuccess: async () => {
+                                const snippetName = dialog.el.querySelector('.o_we_snippet_name_input').value;
+                                const targetCopyEl = this.$target[0].cloneNode(true);
+                                delete targetCopyEl.dataset.name;
+                                // By the time onSuccess is called after request_save, the
+                                // current widget has been destroyed and is orphaned, so this._rpc
+                                // will not work as it can't trigger_up. For this reason, we need
+                                // to bypass the service provider and use the global RPC directly
+                                await rpc.query({
+                                    model: 'ir.ui.view',
+                                    method: 'save_snippet',
+                                    kwargs: {
+                                        'name': snippetName,
+                                        'arch': targetCopyEl.outerHTML,
+                                        'template_key': this.options.snippets,
+                                        'snippet_key': snippetKey,
+                                        'thumbnail_url': thumbnailURL,
+                                    },
+                                });
                             },
                         });
-                        this.trigger_up('reload_snippet_template');
                     },
                 }, {
                     text: _t("Discard"),

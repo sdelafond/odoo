@@ -3,53 +3,20 @@
 # 	* stock
 # 
 # Translators:
-# Nhomar Hernández [Vauxoo] <nhomar@vauxoo.com>, 2020
-# Carlos Liébana Anero <carlosliebana@gmail.com>, 2020
-# Carlos rodriguez <carlosalbertor436@gmail.com>, 2020
-# Ivan Coro <ivan@iventiva.com>, 2020
-# Ana Juaristi <ajuaristio@gmail.com>, 2020
-# juani_aizean <juani@aizean.com>, 2020
-# Luis Pomar <luis.pomar@gmail.com>, 2020
-# Mariela Moreno <mam@odoo.com>, 2020
-# VivianMontana23 <vivianpvm@gmail.com>, 2020
-# TRC Servicios srl <ventas.bbca@gmail.com>, 2020
-# José Vicente <txusev@gmail.com>, 2020
 # Ana Margarita Gutiérrez Rodríguez <ana.gutierrez@jarsa.com.mx>, 2020
-# Juan José Scarafía <scarafia.juanjose@gmail.com>, 2020
-# Carlos Lopez <celm1990@hotmail.com>, 2020
-# Rick Hunter <rick_hunter_ec@yahoo.com>, 2020
-# Lina Maria Avendaño Carvajal <lina8823@gmail.com>, 2020
-# b7db2840ea95169a8b66b2e8c18d323d_52caf48 <e188a842d22a1f8229ec8e1ab8414c94_389188>, 2020
-# Nans Lefebvre <len@odoo.com>, 2020
-# e2f <projects@e2f.com>, 2020
-# Alejandro Santana <alejandrosantana@anubia.es>, 2020
-# gabriumaa <gabriel.umana@delfixcr.com>, 2020
-# 966ff43e6966712895a590e7320ca288, 2020
-# Mariana Santos Romo <msn@odoo.com>, 2020
-# Roberto Sierra <betosierra@gmail.com>, 2020
-# Oscar Soto <oscar.soto.ochoa@gmail.com>, 2020
-# Martin Trigaux, 2020
-# Pedro M. Baeza <pedro.baeza@gmail.com>, 2020
-# Christopher Ormaza <chris.ormaza@gmail.com>, 2020
 # Luis M. Ontalba <luis.martinez@tecnativa.com>, 2020
-# Pablo Rojas <rojaspablo88@gmail.com>, 2020
-# Carlos Eduardo Rodriguez Rossi <crodriguez@samemotion.com>, 2020
-# Antonio Trueba, 2020
-# Miquel Torner <miq@odoo.com>, 2020
-# Miguel Orueta <mo@landoo.es>, 2020
-# David Vidal <david.vidal@trespinos.es>, 2020
 # Nicolás Broggi <rnbroggi@gmail.com>, 2020
-# Cristopher Cravioto <ccr@odoo.com>, 2020
-# Osiris Román <osiris.roman@yachaytech.edu.ec>, 2020
+# Christopher Ormaza <chris.ormaza@gmail.com>, 2020
 # Rick Hunter <rick.hunter.ec@gmail.com>, 2020
 # Jon Perez <jop@odoo.com>, 2020
+# Martin Trigaux, 2020
 # Jesús Alan Ramos Rodríguez <alan.ramos@jarsa.com.mx>, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-02 14:11+0000\n"
+"POT-Creation-Date: 2020-11-16 13:33+0000\n"
 "PO-Revision-Date: 2020-09-07 08:19+0000\n"
 "Last-Translator: Jesús Alan Ramos Rodríguez <alan.ramos@jarsa.com.mx>, 2020\n"
 "Language-Team: Spanish (https://www.transifex.com/odoo/teams/41243/es/)\n"
@@ -1740,7 +1707,7 @@ msgstr ""
 #. module: stock
 #: code:addons/stock/models/stock_move.py:0
 #, python-format
-msgid "Deadline updates due to delay on %s"
+msgid "Deadline updated due to delay on %s"
 msgstr ""
 
 #. module: stock
@@ -2436,16 +2403,6 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Icono de Font Awesome ej. fa-tasks"
 
 #. module: stock
-#: model:ir.model.fields,field_description:stock.field_stock_move__forecast_availability
-msgid "Forcast Availability"
-msgstr ""
-
-#. module: stock
-#: model:ir.model.fields,field_description:stock.field_stock_move__forecast_expected_date
-msgid "Forcasted Expected date"
-msgstr ""
-
-#. module: stock
 #: model:ir.model.fields,field_description:stock.field_product_category__removal_strategy_id
 msgid "Force Removal Strategy"
 msgstr "Forzar estrategia de retirada"
@@ -2454,6 +2411,11 @@ msgstr "Forzar estrategia de retirada"
 #: model:ir.model.fields,field_description:stock.field_stock_warehouse_orderpoint__qty_forecast
 msgid "Forecast"
 msgstr "Previsión"
+
+#. module: stock
+#: model:ir.model.fields,field_description:stock.field_stock_move__forecast_availability
+msgid "Forecast Availability"
+msgstr ""
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.view_warehouse_orderpoint_tree_editable
@@ -2509,6 +2471,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:stock.stock_report_view_search
 msgid "Forecasted Deliveries"
 msgstr "Entregas previstas"
+
+#. module: stock
+#: model:ir.model.fields,field_description:stock.field_stock_move__forecast_expected_date
+msgid "Forecasted Expected date"
+msgstr ""
 
 #. module: stock
 #: model:ir.actions.act_window,name:stock.report_stock_quantity_action
@@ -2710,6 +2677,11 @@ msgstr "Altura (Z)"
 #. module: stock
 #: model:ir.model.fields,help:stock.field_stock_warehouse_orderpoint__snoozed_until
 msgid "Hidden until next scheduler."
+msgstr ""
+
+#. module: stock
+#: model:ir.model.fields,field_description:stock.field_stock_picking__hide_picking_type
+msgid "Hide Picking Type"
 msgstr ""
 
 #. module: stock
@@ -3280,7 +3252,7 @@ msgstr ""
 
 #. module: stock
 #: model:ir.model.fields,help:stock.field_stock_picking__has_deadline_issue
-msgid "Is late or will be late depending of the deadline and scheduled date"
+msgid "Is late or will be late depending on the deadline and scheduled date"
 msgstr ""
 
 #. module: stock
@@ -4012,7 +3984,7 @@ msgstr "Ninguna operación realizada en este lote."
 #. module: stock
 #: model_terms:ir.actions.act_window,help:stock.product_template_action_product
 msgid "No product found. Let's create one!"
-msgstr ""
+msgstr "No se ha encontrado ningún producto. ¡Creemos uno!"
 
 #. module: stock
 #: code:addons/stock/wizard/stock_picking_return.py:0
@@ -6365,7 +6337,7 @@ msgstr "Informe de cantidad de stock"
 #: model:ir.model,name:stock.model_report_stock_report_product_product_replenishment
 #: model:ir.model,name:stock.model_report_stock_report_product_template_replenishment
 msgid "Stock Replenishment Report"
-msgstr ""
+msgstr "Informe de reabastecimiento de existencias"
 
 #. module: stock
 #: model:ir.model,name:stock.model_stock_rule
@@ -8118,11 +8090,9 @@ msgstr "Debe definir un método groupby y sorted y pasarlos como argumentos."
 #: code:addons/stock/models/stock_orderpoint.py:0
 #, python-format
 msgid ""
-"You have to select a product unit of measure that is in the same category "
-"than the default unit of measure of the product"
+"You have to select a product unit of measure that is in the same category as"
+" the default unit of measure of the product"
 msgstr ""
-"Debe seleccionar una unidad de medida del producto que esté en la misma "
-"categoría que la unidad de medida predeterminada del producto"
 
 #. module: stock
 #: code:addons/stock/wizard/stock_picking_return.py:0

@@ -192,7 +192,7 @@ msgstr "Archivovaný"
 #. module: fleet
 #: model:ir.model.fields,field_description:fleet.field_fleet_vehicle__next_assignation_date
 msgid "Assignment Date"
-msgstr ""
+msgstr "Dátum pridelenia"
 
 #. module: fleet
 #: model:ir.model.fields,field_description:fleet.field_fleet_vehicle__log_drivers
@@ -1904,7 +1904,7 @@ msgstr "Pneumatiková služba"
 #. module: fleet
 #: model:ir.model.fields.selection,name:fleet.selection__fleet_vehicle_log_services__state__todo
 msgid "To Do"
-msgstr "Úloha"
+msgstr "Úlohy"
 
 #. module: fleet
 #: model:fleet.vehicle.state,name:fleet.fleet_vehicle_state_to_order

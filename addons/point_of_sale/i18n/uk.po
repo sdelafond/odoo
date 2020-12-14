@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-02 14:11+0000\n"
+"POT-Creation-Date: 2020-11-16 13:33+0000\n"
 "PO-Revision-Date: 2020-09-07 08:16+0000\n"
 "Last-Translator: Alina Lisnenko <alinasemeniuk1@gmail.com>, 2020\n"
 "Language-Team: Ukrainian (https://www.transifex.com/odoo/teams/41243/uk/)\n"
@@ -1391,7 +1391,7 @@ msgstr "Вікно налагодження"
 #. module: point_of_sale
 #: model:ir.model.fields,field_description:point_of_sale.field_account_bank_statement__account_id
 msgid "Default Account"
-msgstr ""
+msgstr "Типовий рахунок"
 
 #. module: point_of_sale
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_config__default_cashbox_id
@@ -2836,6 +2836,11 @@ msgstr "Гаразд"
 #: model:ir.model.fields,field_description:point_of_sale.field_pos_config__only_round_cash_method
 msgid "Only apply rounding on cash"
 msgstr "Застосовуйте округлення лише готівкою"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.pos_config_view_form
+msgid "Only on cash methods"
+msgstr ""
 
 #. module: point_of_sale
 #: model:ir.model.fields,help:point_of_sale.field_pos_config__restrict_price_control
@@ -4796,6 +4801,13 @@ msgstr ""
 "автоматично."
 
 #. module: point_of_sale
+#: code:addons/point_of_sale/models/pos_payment.py:0
+#, python-format
+msgid ""
+"The payment method selected is not allowed in the config of the POS session."
+msgstr ""
+
+#. module: point_of_sale
 #: code:addons/point_of_sale/models/pos_config.py:0
 #, python-format
 msgid ""
@@ -5111,6 +5123,13 @@ msgid ""
 msgstr ""
 "Ця послідовність автоматично створюється Odoo, але ви можете змінити її, "
 "щоби налаштувати довідкові номери ваших замовлень."
+
+#. module: point_of_sale
+#: code:addons/point_of_sale/models/pos_session.py:0
+#: code:addons/point_of_sale/models/pos_session.py:0
+#, python-format
+msgid "This session is already closed."
+msgstr ""
 
 #. module: point_of_sale
 #: model_terms:ir.ui.view,arch_db:point_of_sale.res_config_settings_view_form
@@ -5726,6 +5745,13 @@ msgid ""
 msgstr ""
 "Ви повинні визначити товар для всього, що ви продаєте через\n"
 "інтерфейс продажу."
+
+#. module: point_of_sale
+#: code:addons/point_of_sale/models/pos_config.py:0
+#, python-format
+msgid ""
+"You must have at least one payment method configured to launch a session."
+msgstr ""
 
 #. module: point_of_sale
 #: code:addons/point_of_sale/models/pos_config.py:0

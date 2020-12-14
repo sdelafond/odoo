@@ -3,6 +3,7 @@ odoo.define('mail/static/src/models/messaging_notification_handler/messaging_not
 
 const { registerNewModel } = require('mail/static/src/model/model_core.js');
 const { one2one } = require('mail/static/src/model/model_field.js');
+const { htmlToTextContentInline } = require('mail.utils');
 
 const PREVIEW_MSG_MAX_SIZE = 350; // optimal for native English speakers
 
@@ -251,9 +252,9 @@ function factory(dependencies) {
                 channel.correspondent === this.env.messaging.partnerRoot
             );
             if (!isChatWithOdooBot) {
-                // Notify if out of focus
                 const isOdooFocused = this.env.services['bus_service'].isOdooFocused();
-                if (!isOdooFocused) {
+                // Notify if out of focus
+                if (!isOdooFocused && channel.isChatChannel) {
                     this._notifyNewChannelMessageWhileOutOfFocus({
                         channel,
                         message,
@@ -444,7 +445,7 @@ function factory(dependencies) {
                 return this._handleNotificationPartnerUnsubscribe(data.id);
             } else if (type === 'user_connection') {
                 return this._handleNotificationPartnerUserConnection(data);
-            } else {
+            } else if (!type) {
                 return this._handleNotificationPartnerChannel(data);
             }
         }
@@ -655,14 +656,19 @@ function factory(dependencies) {
          */
         _handleNotificationPartnerTransientMessage(data) {
             const convertedData = this.env.models['mail.message'].convertData(data);
-            const messageIds = this.env.models['mail.message'].all().map(message => message.id);
+            const lastMessageId = this.env.models['mail.message'].all().reduce(
+                (lastMessageId, message) => Math.max(lastMessageId, message.id),
+                0
+            );
             const partnerRoot = this.env.messaging.partnerRoot;
             const message = this.env.models['mail.message'].create(Object.assign(convertedData, {
                 author: [['link', partnerRoot]],
-                id: (messageIds ? Math.max(...messageIds) : 0) + 0.01,
+                id: lastMessageId + 0.01,
                 isTransient: true,
             }));
             this._notifyThreadViewsMessageReceived(message);
+            // manually force recompute of counter
+            this.messaging.messagingMenu.update();
         }
 
         /**
@@ -754,7 +760,7 @@ function factory(dependencies) {
                     notificationTitle = owl.utils.escape(authorName);
                 }
             }
-            const notificationContent = message.prettyBody.substr(0, PREVIEW_MSG_MAX_SIZE);
+            const notificationContent = htmlToTextContentInline(message.body).substr(0, PREVIEW_MSG_MAX_SIZE);
             this.env.services['bus_service'].sendNotification(notificationTitle, notificationContent);
             messaging.update({ outOfFocusUnreadMessageCounter: messaging.outOfFocusUnreadMessageCounter + 1 });
             const titlePattern = messaging.outOfFocusUnreadMessageCounter === 1

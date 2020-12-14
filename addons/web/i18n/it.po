@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-29 13:46+0000\n"
+"POT-Creation-Date: 2020-10-29 15:48+0000\n"
 "PO-Revision-Date: 2020-09-07 08:19+0000\n"
 "Last-Translator: Sergio Zanchetta <primes2h@gmail.com>, 2020\n"
 "Language-Team: Italian (https://www.transifex.com/odoo/teams/41243/it/)\n"
@@ -626,7 +626,7 @@ msgstr "Avviso"
 #: code:addons/web/static/src/xml/base.xml:0
 #, python-format
 msgid "All"
-msgstr "tutte"
+msgstr "Tutti"
 
 #. module: web
 #. openerp-web
@@ -813,7 +813,7 @@ msgstr ""
 #: code:addons/web/static/src/xml/base.xml:0
 #, python-format
 msgid "Ascending"
-msgstr "Ascendente"
+msgstr "Crescente"
 
 #. module: web
 #. openerp-web
@@ -1285,7 +1285,7 @@ msgstr "Impossibile collegarsi al server"
 #: code:addons/web/static/src/js/fields/signature.js:0
 #, python-format
 msgid "Could not display the selected image"
-msgstr ""
+msgstr "Impossibile visualizzare l'immagine selezionata"
 
 #. module: web
 #. openerp-web
@@ -1540,7 +1540,7 @@ msgstr "Elimina riga"
 #: code:addons/web/static/src/xml/base.xml:0
 #, python-format
 msgid "Descending"
-msgstr "Descrescente"
+msgstr "Decrescente"
 
 #. module: web
 #. openerp-web
@@ -1677,7 +1677,7 @@ msgstr "Scarica"
 #: code:addons/web/static/src/xml/base.xml:0
 #, python-format
 msgid "Download xlsx"
-msgstr ""
+msgstr "Scarica xlsx"
 
 #. module: web
 #. openerp-web
@@ -1827,7 +1827,7 @@ msgstr "Esporta"
 #: code:addons/web/static/src/xml/base.xml:0
 #, python-format
 msgid "Export All"
-msgstr "Esporta tutti"
+msgstr "Esporta tutto"
 
 #. module: web
 #. openerp-web
@@ -2525,6 +2525,13 @@ msgstr "Metodo:"
 
 #. module: web
 #. openerp-web
+#: code:addons/web/static/src/js/services/crash_manager.js:92
+#, python-format
+msgid "MailDeliveryException"
+msgstr ""
+
+#. module: web
+#. openerp-web
 #: code:addons/web/static/src/js/services/crash_manager.js:0
 #, python-format
 msgid "Missing Record"
@@ -2782,7 +2789,7 @@ msgstr "Stato non attivo"
 #: code:addons/web/static/src/xml/base.xml:0
 #, python-format
 msgid "Not active state, click to change it"
-msgstr "Stato non attivo, un clic per cambiarlo"
+msgstr "Stato non attivo, fai clic per cambiarlo"
 
 #. module: web
 #. openerp-web
@@ -2895,6 +2902,7 @@ msgstr "Uno a molti"
 msgid ""
 "Only employees can access this database. Please contact the administrator."
 msgstr ""
+"Solo i dipendenti possono accedere al database. Contattare l'amministratore."
 
 #. module: web
 #. openerp-web
@@ -3110,7 +3118,7 @@ msgstr "pivot"
 #: code:addons/web/static/src/xml/base.xml:0
 #, python-format
 msgid "Pivot settings"
-msgstr ""
+msgstr "Impostazioni pivot"
 
 #. module: web
 #. openerp-web
@@ -3632,7 +3640,7 @@ msgstr "Vedi dettagli"
 #: code:addons/web/static/src/xml/kanban.xml:0
 #, python-format
 msgid "See examples"
-msgstr ""
+msgstr "Vedi esempi"
 
 #. module: web
 #. openerp-web
@@ -4395,7 +4403,7 @@ msgstr "Caricamento... (%s%%)"
 #: code:addons/web/static/src/js/views/kanban/kanban_column_quick_create.js:0
 #, python-format
 msgid "Use This For My Kanban"
-msgstr ""
+msgstr "Usa per il kanban"
 
 #. module: web
 #. openerp-web
@@ -4491,6 +4499,7 @@ msgstr ""
 #. module: web
 #. openerp-web
 #: code:addons/web/static/src/js/chrome/action_manager_report.js:0
+#: code:addons/web/static/src/js/services/crash_manager.js:0
 #: code:addons/web/static/src/js/views/basic/basic_controller.js:0
 #: code:addons/web/static/src/js/views/basic/basic_controller.js:0
 #: code:addons/web/static/src/js/views/list/list_controller.js:0
@@ -5086,7 +5095,7 @@ msgstr "cerca"
 #: code:addons/web/static/src/xml/base.xml:0
 #, python-format
 msgid "selected"
-msgstr "selezionato"
+msgstr "selezionato/i"
 
 #. module: web
 #. openerp-web

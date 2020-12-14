@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-29 13:46+0000\n"
+"POT-Creation-Date: 2020-10-29 15:48+0000\n"
 "PO-Revision-Date: 2020-09-07 08:18+0000\n"
 "Last-Translator: Mads Søndergaard <mads@vkdata.dk>, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/odoo/teams/41243/da/)\n"
@@ -1207,7 +1207,7 @@ msgstr "Salgsordre"
 #: model:ir.model.fields,field_description:sale_timesheet.field_project_create_sale_order_line__sale_line_id
 #: model:ir.model.fields,field_description:sale_timesheet.field_project_sale_line_employee_map__sale_line_id
 msgid "Sale Order Item"
-msgstr "Salgsordre"
+msgstr "Salgsordrevare"
 
 #. module: sale_timesheet
 #: model:ir.model.fields,field_description:sale_timesheet.field_project_profitability_report__sale_line_id

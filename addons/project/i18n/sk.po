@@ -11,13 +11,15 @@
 # Martin Trigaux, 2020
 # Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>, 2020
 # Jan Prokop, 2020
+# karolína schusterová <karolina.schusterova@vdp.sk>, 2020
+# Damian Brencic <brencicdamian12313@gmail.com>, 2020
 # Rastislav Brencic <rastislav.brencic@azet.sk>, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-29 13:45+0000\n"
+"POT-Creation-Date: 2020-11-16 14:19+0000\n"
 "PO-Revision-Date: 2020-09-07 08:17+0000\n"
 "Last-Translator: Rastislav Brencic <rastislav.brencic@azet.sk>, 2020\n"
 "Language-Team: Slovak (https://www.transifex.com/odoo/teams/41243/sk/)\n"
@@ -104,13 +106,13 @@ msgstr ""
 #: model:ir.model.fields.selection,name:project.selection__project_task__repeat_day__10
 #: model:ir.model.fields.selection,name:project.selection__project_task_recurrence__repeat_day__10
 msgid "10"
-msgstr ""
+msgstr "10"
 
 #. module: project
 #: model:ir.model.fields.selection,name:project.selection__project_task__repeat_day__11
 #: model:ir.model.fields.selection,name:project.selection__project_task_recurrence__repeat_day__11
 msgid "11"
-msgstr ""
+msgstr "11"
 
 #. module: project
 #: model:ir.model.fields.selection,name:project.selection__project_task__repeat_day__12
@@ -122,25 +124,25 @@ msgstr "12"
 #: model:ir.model.fields.selection,name:project.selection__project_task__repeat_day__13
 #: model:ir.model.fields.selection,name:project.selection__project_task_recurrence__repeat_day__13
 msgid "13"
-msgstr ""
+msgstr "13"
 
 #. module: project
 #: model:ir.model.fields.selection,name:project.selection__project_task__repeat_day__14
 #: model:ir.model.fields.selection,name:project.selection__project_task_recurrence__repeat_day__14
 msgid "14"
-msgstr ""
+msgstr "14"
 
 #. module: project
 #: model:ir.model.fields.selection,name:project.selection__project_task__repeat_day__15
 #: model:ir.model.fields.selection,name:project.selection__project_task_recurrence__repeat_day__15
 msgid "15"
-msgstr ""
+msgstr "15"
 
 #. module: project
 #: model:ir.model.fields.selection,name:project.selection__project_task__repeat_day__16
 #: model:ir.model.fields.selection,name:project.selection__project_task_recurrence__repeat_day__16
 msgid "16"
-msgstr ""
+msgstr "16"
 
 #. module: project
 #: model:ir.model.fields.selection,name:project.selection__project_task__repeat_day__17
@@ -601,6 +603,11 @@ msgid "All tasks"
 msgstr ""
 
 #. module: project
+#: model:ir.model.fields,field_description:project.field_project_task__allow_subtasks
+msgid "Allow Sub-tasks"
+msgstr ""
+
+#. module: project
 #: model:ir.model.fields,field_description:project.field_project_project__allowed_internal_user_ids
 msgid "Allowed Internal Users"
 msgstr ""
@@ -717,7 +724,7 @@ msgstr "Dátum pridelenia"
 #. module: project
 #: model:ir.model.fields,field_description:project.field_report_project_task_user__date_assign
 msgid "Assignment Date"
-msgstr ""
+msgstr "Dátum pridelenia"
 
 #. module: project
 #: model_terms:ir.ui.view,arch_db:project.task_type_edit
@@ -826,18 +833,19 @@ msgid ""
 "By saving this change, the customer email and phone number will also be "
 "updated."
 msgstr ""
+"Uložením tejto zmeny sa aktualizuje aj e-mail a telefónne číslo zákazníka."
 
 #. module: project
 #: code:addons/project/models/project.py:0
 #, python-format
 msgid "By saving this change, the customer email will also be updated."
-msgstr ""
+msgstr "Uložením tejto zmeny sa aktualizuje aj e-mail zákazníka."
 
 #. module: project
 #: code:addons/project/models/project.py:0
 #, python-format
 msgid "By saving this change, the customer phone number will also be updated."
-msgstr ""
+msgstr "Uložením tejto zmeny sa aktualizuje aj telefónne číslo zákazníka."
 
 #. module: project
 #: model_terms:ir.ui.view,arch_db:project.project_delete_wizard_form
@@ -1052,7 +1060,7 @@ msgstr "Súčasná fáza tejto úlohy"
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_project__alias_bounced_content
 msgid "Custom Bounced Message"
-msgstr ""
+msgstr "Vlastná odrazená správa"
 
 #. module: project
 #: code:addons/project/models/project.py:0
@@ -1201,16 +1209,11 @@ msgstr ""
 #: model:ir.model.fields,help:project.field_project_task__project_privacy_visibility
 msgid ""
 "Defines the visibility of the tasks of the project:\n"
-"- Invited employees: employees may only see the followed project and tasks.\n"
-"- All employees: employees may see all project and tasks.\n"
-"- Portal users and all employees: employees may see everything.   Portal users may see project and tasks followed by.\n"
+"- Invited internal users: employees may only see the followed project and tasks.\n"
+"- All internal users: employees may see all project and tasks.\n"
+"- Invited portal and all internal users: employees may see everything.   Portal users may see project and tasks followed by\n"
 "   them or by someone of their company."
 msgstr ""
-"Definuje viditeľnosť úloh projektu:\n"
-"- Pozvaní zamestnanci: zamestnanci môžu vidieť iba sledovaný projekt a úlohy.\n"
-"- Všetci zamestnanci: zamestnanci môžu vidieť všetky projekty a úlohy.\n"
-"- Používatelia portálu a všetci zamestnanci: zamestnanci môžu vidieť všetko. Používatelia portálu môžu vidieť projekt a úlohy, ktoré nasledujú.\n"
-"nimi alebo niekým z ich spoločnosti."
 
 #. module: project
 #: model:ir.actions.server,name:project.unlink_project_action
@@ -1537,7 +1540,7 @@ msgstr "Úžasná ikona fronty napr. fa-tasks"
 #: model:ir.model.fields.selection,name:project.selection__project_task__repeat_type__forever
 #: model:ir.model.fields.selection,name:project.selection__project_task_recurrence__repeat_type__forever
 msgid "Forever"
-msgstr ""
+msgstr "Navždy"
 
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_task__fri
@@ -1738,6 +1741,8 @@ msgid ""
 "If set, this content will automatically be sent out to unauthorized users "
 "instead of the default message."
 msgstr ""
+"Ak je nastavený, namiesto predvolenej správy sa tento obsah automaticky "
+"odošle neoprávneným používateľom."
 
 #. module: project
 #: model:ir.model.fields,help:project.field_project_project__active
@@ -2069,8 +2074,8 @@ msgstr "Hlavné prílohy"
 #, python-format
 msgid ""
 "Manage the lifecycle of your project using the kanban view. Add newly "
-"acquired project, assign them and use the %s and %s to define if the project"
-" is ready for the next step. %s"
+"acquired projects, assign them and use the %s and %s to define if the "
+"project is ready for the next step. %s"
 msgstr ""
 
 #. module: project
@@ -2884,7 +2889,7 @@ msgstr "Opakovanie"
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_task__recurrence_update
 msgid "Recurrence Update"
-msgstr ""
+msgstr "Aktualizácia opakovania"
 
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_task__recurring_task
@@ -3035,7 +3040,7 @@ msgstr "Obnoviť"
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_task__ribbon_message
 msgid "Ribbon message"
-msgstr ""
+msgstr "Stuha správa"
 
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_project__message_has_sms_error
@@ -3100,7 +3105,7 @@ msgstr "Hľadať v správach"
 #: code:addons/project/controllers/portal.py:0
 #, python-format
 msgid "Search in Project"
-msgstr ""
+msgstr "Hľadať v projekte"
 
 #. module: project
 #: code:addons/project/controllers/portal.py:0
@@ -3316,7 +3321,7 @@ msgstr "Čiastkové úlohy"
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_task__subtask_planned_hours
 msgid "Sub-tasks Planned Hours"
-msgstr ""
+msgstr "Čiastkové úlohy plánované hodiny"
 
 #. module: project
 #: model:ir.model.fields,help:project.field_project_task__subtask_planned_hours
@@ -4069,11 +4074,6 @@ msgstr "pre projekt:"
 #. module: project
 #: model_terms:ir.ui.view,arch_db:project.portal_my_tasks
 msgid "in stage:"
-msgstr ""
-
-#. module: project
-#: model:ir.model.fields,field_description:project.field_project_task__allow_subtasks
-msgid "project.project"
 msgstr ""
 
 #. module: project

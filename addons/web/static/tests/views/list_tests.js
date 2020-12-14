@@ -6161,6 +6161,8 @@ QUnit.module('Views', {
 
         // Press 'Tab' -> should get out of the one to many and go to the next field of the form
         await testUtils.fields.triggerKeydown(form.$('.o_field_widget[name=o2m] .o_selected_row input'), 'tab');
+        // use of owlCompatibilityNextTick because the x2many control panel is updated twice
+        await testUtils.owlCompatibilityNextTick();
         assert.strictEqual(document.activeElement, form.$('input[name="foo"]')[0],
             "the next field should be selected");
 
@@ -10868,6 +10870,52 @@ QUnit.module('Views', {
         list.destroy();
         unpatchDate();
         testUtils.mock.unpatch(BasicModel);
+    });
+
+    QUnit.test("update control panel while list view is mounting", async function (assert) {
+        const ControlPanel = require('web.ControlPanel');
+        const ListController = require('web.ListController');
+
+        let mountedCounterCall = 0;
+
+        ControlPanel.patch('test.ControlPanel', T => {
+            class ControlPanelPatchTest extends T {
+                mounted() {
+                    mountedCounterCall = mountedCounterCall + 1;
+                    assert.step(`mountedCounterCall-${mountedCounterCall}`);
+                    super.mounted(...arguments);
+                }
+            }
+            return ControlPanelPatchTest;
+        });
+
+        const MyListView = ListView.extend({
+            config: Object.assign({}, ListView.prototype.config, {
+                Controller: ListController.extend({
+                    async start() {
+                        await this._super(...arguments);
+                        this.renderer._updateSelection();
+                    },
+                }),
+            }),
+        });
+
+        assert.expect(2);
+
+        const list = await createView({
+            View: MyListView,
+            model: 'event',
+            data: this.data,
+            arch: '<tree><field name="name"/></tree>',
+        });
+
+        assert.verifySteps([
+            'mountedCounterCall-1',
+        ]);
+
+        ControlPanel.unpatch('test.ControlPanel');
+
+        list.destroy();
     });
 });
 
