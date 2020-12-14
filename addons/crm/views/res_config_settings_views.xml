@@ -38,7 +38,7 @@
                                     <div class="mt16">
                                         <field name="crm_alias_prefix" class="oe_inline"
                                             attrs="{'required': [('generate_lead_from_alias', '=', True)]}"/>
-                                        <label for="alias_domain" string="@"/>
+                                        <label class="mr-0" for="alias_domain" string="@"/>
                                         <field name="alias_domain" readonly="1" force_save="1" class="oe_inline"/>
                                     </div>
                                     <div attrs="{'invisible': [('alias_domain', 'not in', ['localhost', '', False])]}">
@@ -167,7 +167,7 @@
         <field name="view_id" ref="res_config_settings_view_form"/>
         <field name="view_mode">form</field>
         <field name="target">inline</field>
-        <field name="context">{'module' : 'crm'}</field>
+        <field name="context">{'module' : 'crm', 'bin_size': False}</field>
     </record>
 
     <record id="crm_config_settings_menu" model="ir.ui.menu">

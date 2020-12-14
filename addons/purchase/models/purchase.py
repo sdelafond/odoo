@@ -6,10 +6,10 @@ from itertools import groupby
 from pytz import timezone, UTC
 from werkzeug.urls import url_encode
 
-from odoo import api, fields, models, SUPERUSER_ID, _
+from odoo import api, fields, models, _
 from odoo.osv import expression
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
-from odoo.tools.float_utils import float_compare, float_is_zero
+from odoo.tools.float_utils import float_is_zero
 from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tools.misc import formatLang, get_lang
 
@@ -18,7 +18,7 @@ class PurchaseOrder(models.Model):
     _name = "purchase.order"
     _inherit = ['mail.thread', 'mail.activity.mixin', 'portal.mixin']
     _description = "Purchase Order"
-    _order = 'priority desc, date_order desc, id desc'
+    _order = 'priority desc, id desc'
 
     @api.depends('order_line.price_total')
     def _amount_all(self):
@@ -82,8 +82,8 @@ class PurchaseOrder(models.Model):
              "It's used to do the matching when you receive the "
              "products as this reference is usually written on the "
              "delivery order sent by your vendor.")
-    date_order = fields.Datetime('Order Deadline', required=True, states=READONLY_STATES, index=True, copy=False, default=fields.Datetime.now,\
-        help="Depicts the date where the Quotation should be validated and converted into a purchase order.")
+    date_order = fields.Datetime('Order Deadline', required=True, states=READONLY_STATES, index=True, copy=False, default=fields.Datetime.now,
+        help="Depicts the date within which the Quotation should be confirmed and converted into a purchase order.")
     date_approve = fields.Datetime('Confirmation Date', readonly=1, index=True, copy=False)
     partner_id = fields.Many2one('res.partner', string='Vendor', required=True, states=READONLY_STATES, change_default=True, tracking=True, domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", help="You can find a vendor by its Name, TIN, Email or Internal Reference.")
     dest_address_id = fields.Many2one('res.partner', domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", string='Drop Ship Address', states=READONLY_STATES,
@@ -201,10 +201,11 @@ class PurchaseOrder(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('name', 'New') == 'New':
+            company_id = vals.get("company_id", self.env.company.id)
             seq_date = None
             if 'date_order' in vals:
                 seq_date = fields.Datetime.context_timestamp(self, fields.Datetime.to_datetime(vals['date_order']))
-            vals['name'] = self.env['ir.sequence'].next_by_code('purchase.order', sequence_date=seq_date) or '/'
+            vals['name'] = self.env['ir.sequence'].with_company(company_id).next_by_code('purchase.order', sequence_date=seq_date) or '/'
         return super(PurchaseOrder, self).create(vals)
 
     def unlink(self):
@@ -557,8 +558,7 @@ class PurchaseOrder(models.Model):
             self.sudo()._read(['invoice_ids'])
             invoices = self.invoice_ids
 
-        action = self.env.ref('account.action_move_in_invoice_type').sudo()
-        result = action.read()[0]
+        result = self.env['ir.actions.act_window']._for_xml_id('account.action_move_in_invoice_type')
         # choose the view_mode accordingly
         if len(invoices) > 1:
             result['domain'] = [('id', 'in', invoices.ids)]
@@ -566,7 +566,7 @@ class PurchaseOrder(models.Model):
             res = self.env.ref('account.view_move_form', False)
             form_view = [(res and res.id or False, 'form')]
             if 'views' in result:
-                result['views'] = form_view + [(state, view) for state, view in action['views'] if view != 'form']
+                result['views'] = form_view + [(state, view) for state, view in result['views'] if view != 'form']
             else:
                 result['views'] = form_view
             result['res_id'] = invoices.id
@@ -783,7 +783,7 @@ class PurchaseOrderLine(models.Model):
     qty_invoiced = fields.Float(compute='_compute_qty_invoiced', string="Billed Qty", digits='Product Unit of Measure', store=True)
 
     qty_received_method = fields.Selection([('manual', 'Manual')], string="Received Qty Method", compute='_compute_qty_received_method', store=True,
-        help="According to product configuration, the recieved quantity can be automatically computed by mechanism :\n"
+        help="According to product configuration, the received quantity can be automatically computed by mechanism :\n"
              "  - Manual: the quantity is set manually on the line\n"
              "  - Stock Moves: the quantity comes from confirmed pickings\n")
     qty_received = fields.Float("Received Qty", compute='_compute_qty_received', inverse='_inverse_qty_received', compute_sudo=True, store=True, digits='Product Unit of Measure')
@@ -863,7 +863,7 @@ class PurchaseOrderLine(models.Model):
             # compute qty_to_invoice
             if line.order_id.state in ['purchase', 'done']:
                 if line.product_id.purchase_method == 'purchase':
-                    line.qty_to_invoice = line.product_uom_qty - line.qty_invoiced
+                    line.qty_to_invoice = line.product_qty - line.qty_invoiced
                 else:
                     line.qty_to_invoice = line.qty_received - line.qty_invoiced
             else:
@@ -1028,8 +1028,22 @@ class PurchaseOrderLine(models.Model):
         if seller or not self.date_planned:
             self.date_planned = self._get_date_planned(seller).strftime(DEFAULT_SERVER_DATETIME_FORMAT)
 
+        # If not seller, use the standard price. It needs a proper currency conversion.
         if not seller:
-            self.price_unit = self.product_id.standard_price
+            price_unit = self.env['account.tax']._fix_tax_included_price_company(
+                self.product_id.standard_price,
+                self.product_id.supplier_taxes_id,
+                self.taxes_id,
+                self.company_id,
+            )
+            if price_unit and self.order_id.currency_id and self.order_id.company_id.currency_id != self.order_id.currency_id:
+                price_unit = self.order_id.company_id.currency_id._convert(
+                    price_unit,
+                    self.order_id.currency_id,
+                    self.order_id.company_id,
+                    self.date_order or fields.Date.today(),
+                )
+            self.price_unit = price_unit
             return
 
         price_unit = self.env['account.tax']._fix_tax_included_price_company(seller.price, self.product_id.supplier_taxes_id, self.taxes_id, self.company_id) if seller else 0.0

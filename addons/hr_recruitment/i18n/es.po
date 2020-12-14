@@ -3,14 +3,8 @@
 # 	* hr_recruitment
 # 
 # Translators:
-# Jesse Garza <jga@odoo.com>, 2020
-# Pedro M. Baeza <pedro.baeza@gmail.com>, 2020
-# Cristóbal Martí Oliver <info@moblesmarti.com>, 2020
-# Rick Hunter <rick_hunter_ec@yahoo.com>, 2020
 # Cristopher Cravioto <ccr@odoo.com>, 2020
 # Jon Perez <jop@odoo.com>, 2020
-# Mariana Santos Romo <msn@odoo.com>, 2020
-# Osiris Román <osiris.roman@yachaytech.edu.ec>, 2020
 # Martin Trigaux, 2020
 # Jesús Alan Ramos Rodríguez <alan.ramos@jarsa.com.mx>, 2020
 # 
@@ -872,7 +866,7 @@ msgstr "Fecha de Creación"
 #. module: hr_recruitment
 #: model:ir.model.fields,field_description:hr_recruitment.field_hr_job__alias_bounced_content
 msgid "Custom Bounced Message"
-msgstr ""
+msgstr "Mensaje rebotado personalizado"
 
 #. module: hr_recruitment
 #: model:ir.model.fields,field_description:hr_recruitment.field_hr_applicant__day_close
@@ -1304,6 +1298,8 @@ msgid ""
 "If set, this content will automatically be sent out to unauthorized users "
 "instead of the default message."
 msgstr ""
+"Si se configura, este contenido se enviará automáticamente a usuarios no "
+"autorizados en lugar del mensaje predeterminado."
 
 #. module: hr_recruitment
 #: model:ir.model.fields,help:hr_recruitment.field_hr_applicant__active

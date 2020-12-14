@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-29 13:45+0000\n"
+"POT-Creation-Date: 2020-11-16 13:33+0000\n"
 "PO-Revision-Date: 2020-09-07 08:19+0000\n"
 "Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>, 2020\n"
 "Language-Team: Dutch (https://www.transifex.com/odoo/teams/41243/nl/)\n"
@@ -479,8 +479,8 @@ msgstr ""
 
 #. module: survey
 #: model:survey.question,description:survey.survey_demo_quiz_p2
-msgid "<p>Some questions on our Company. Do you really know us ?</p>"
-msgstr "<p>Enkele vragen over ons bedrijf. Kent je ons echt?</p>"
+msgid "<p>Some questions about our company. Do you really know us?</p>"
+msgstr "<p>Enkele vragen over ons bedrijf. Ken je ons echt?</p>"
 
 #. module: survey
 #: model:survey.question,description:survey.vendor_certification_page_3
@@ -505,11 +505,9 @@ msgstr "<p>Test je leveranciersvaardigheden!</p>"
 #. module: survey
 #: model:survey.question,description:survey.survey_feedback_p1
 msgid ""
-"<p>This section is about general informations about you. Answering them "
-"helps qualifying your answers.</p>"
+"<p>This section is about general information about you. Answering them helps"
+" qualifying your answers.</p>"
 msgstr ""
-"<p>Dit gedeelte gaat over algemene informatie over jou. Door ze te "
-"beantwoorden, worden je antwoorden beter gekwalificeerd.</p>"
 
 #. module: survey
 #: model:survey.question,description:survey.survey_feedback_p2
@@ -768,8 +766,8 @@ msgstr "Er heeft zich een probleem voorgedaan"
 #. module: survey
 #: code:addons/survey/models/survey_user.py:0
 #, python-format
-msgid "A question is either skipped, either answered. Not both."
-msgstr "Een vraag wordt overgeslagen of beantwoord. Niet beide."
+msgid "A question is either skipped or answered, not both."
+msgstr "Een vraag wordt overgeslagen of beantwoord; niet beide."
 
 #. module: survey
 #: model:survey.question,title:survey.survey_feedback_p2
@@ -956,8 +954,8 @@ msgstr "Antwoord deadline"
 
 #. module: survey
 #: model:ir.model.fields,help:survey.field_survey_question__triggering_answer_id
-msgid "Answer that will trigger the display the current question."
-msgstr "Antwoord waarmee de huidige vraag wordt weergegeven."
+msgid "Answer that will trigger the display of the current question."
+msgstr ""
 
 #. module: survey
 #: model_terms:ir.ui.view,arch_db:survey.survey_page_statistics_question
@@ -1382,8 +1380,8 @@ msgstr "Conferentiestoel"
 
 #. module: survey
 #: model:gamification.badge,description:survey.vendor_certification_badge
-msgid "Congratulation, you are now official vendor of MyCompany"
-msgstr "Gefeliciteerd, je bent nu officieel verkoper van MyCompany"
+msgid "Congratulations, you are now official vendor of MyCompany"
+msgstr "Gefeliciteerd, je bent nu officieel verkoper van MijnBedrijf"
 
 #. module: survey
 #: model_terms:ir.ui.view,arch_db:survey.survey_fill_form_done
@@ -1414,6 +1412,11 @@ msgstr "Inhoud"
 #: model_terms:ir.ui.view,arch_db:survey.survey_fill_form_in_progress
 msgid "Continue"
 msgstr "Doorgaan"
+
+#. module: survey
+#: model_terms:ir.ui.view,arch_db:survey.survey_fill_form
+msgid "Continue here"
+msgstr "Ga hier verder."
 
 #. module: survey
 #: model:survey.question.answer,value:survey.survey_demo_quiz_p3_q3_sug4
@@ -2300,8 +2303,8 @@ msgstr "In behandeling"
 
 #. module: survey
 #: model:survey.question,title:survey.survey_demo_quiz_p4_q5
-msgid "In the list below, select all the corniferous."
-msgstr "Selecteer in de onderstaande lijst alle naaldbomen."
+msgid "In the list below, select all the coniferous."
+msgstr ""
 
 #. module: survey
 #: model:survey.question,title:survey.survey_demo_quiz_p4_q2
@@ -2510,7 +2513,7 @@ msgstr "Citroenbomen"
 #: model:ir.model.fields,field_description:survey.field_survey_survey__is_attempts_limited
 #: model:ir.model.fields,field_description:survey.field_survey_user_input__is_attempts_limited
 msgid "Limited number of attempts"
-msgstr "Gelimiteerd aantal pogingen"
+msgstr "Beperkt aantal pogingen"
 
 #. module: survey
 #: model_terms:ir.ui.view,arch_db:survey.survey_form
@@ -2872,8 +2875,8 @@ msgstr "Numeriek antwoord"
 
 #. module: survey
 #: model_terms:ir.ui.view,arch_db:survey.question_result_number_or_date
-msgid "Occurence"
-msgstr "Aantal keer"
+msgid "Occurrence"
+msgstr "Voorkomen"
 
 #. module: survey
 #: model:survey.question.answer,value:survey.vendor_certification_page_2_question_2_choice_5
@@ -3052,7 +3055,7 @@ msgstr "Taartgrafiek"
 
 #. module: survey
 #: model:survey.question.answer,value:survey.survey_demo_quiz_p4_q1_sug1
-msgid "Pincaceae"
+msgid "Pinaceae"
 msgstr "Dennenfamilie"
 
 #. module: survey
@@ -3511,17 +3514,6 @@ msgid "Some emails you just entered are incorrect: %s"
 msgstr "Sommige van de e-mails die u net heeft ingegeven zijn foutief: %s"
 
 #. module: survey
-#: model_terms:ir.ui.view,arch_db:survey.survey_fill_form
-msgid ""
-"Something went wrong while contacting survey server. <strong class=\"text-"
-"danger\">Your answers have probably not been recorded.</strong> Try "
-"refreshing."
-msgstr ""
-"Er ging iets mis tijdens het contacteren van de enquête server. <strong "
-"class=\"text-danger\">Uw antwoorden zijn waarschijnlijk niet "
-"opgeslagen.</strong> Probeer te vernieuwen."
-
-#. module: survey
 #: model_terms:ir.ui.view,arch_db:survey.survey_page_statistics_header
 msgid "Sorry, no one answered this survey yet."
 msgstr "Sorry, nog niemand heeft deze enquete beantwoord."
@@ -3887,7 +3879,7 @@ msgid ""
 " number of attempts."
 msgstr ""
 "De limiet van het aantal pogingen moet een positief getal zijn indien het "
-"aantal pogingen gelimiteerd is."
+"aantal pogingen beperkt is."
 
 #. module: survey
 #: model:ir.model.constraint,message:survey.constraint_survey_survey_badge_uniq
@@ -3986,7 +3978,7 @@ msgstr "De enquête is al begonnen."
 #. module: survey
 #: model:ir.model.fields,field_description:survey.field_survey_survey__is_time_limited
 msgid "The survey is limited in time"
-msgstr "De enquête is gelimiteerd in tijd"
+msgstr "De enquête is beperkt in tijd"
 
 #. module: survey
 #: model:ir.model.fields,help:survey.field_survey_survey__session_question_start_time
@@ -4211,6 +4203,15 @@ msgstr "Tijdslimiet (seconden)"
 #: model:ir.model.fields,field_description:survey.field_survey_question__title
 msgid "Title"
 msgstr "Titel"
+
+#. module: survey
+#: model_terms:ir.ui.view,arch_db:survey.survey_fill_form
+msgid ""
+"To take this survey, please close all other tabs on <strong class=\"text-"
+"danger\"/>."
+msgstr ""
+"Sluit alle andere tabbladen om deze enquête in te vullen <strong class"
+"=\"text-danger\"/>."
 
 #. module: survey
 #: model_terms:ir.ui.view,arch_db:survey.survey_survey_view_search
@@ -4470,11 +4471,6 @@ msgid "What is the biggest city in the world ?"
 msgstr "Wat is de grootste stad ter wereld?"
 
 #. module: survey
-#: model:survey.question,title:survey.survey_demo_burger_quiz_p2_q3
-msgid "What is the highest volcano in Europe ?"
-msgstr "Wat is de hoogste vulkaan van Europa?"
-
-#. module: survey
 #: model:survey.question,title:survey.survey_demo_quiz_p1_q1
 msgid "What is your email ?"
 msgstr "Wat is je e-mail?"
@@ -4540,6 +4536,11 @@ msgstr "Welke muzikant zit niet in de '27-club'?"
 #: model:survey.question,title:survey.survey_demo_quiz_p3_q1
 msgid "Which category does a tomato belong to"
 msgstr "Tot welke categorie behoort een tomaat?"
+
+#. module: survey
+#: model:survey.question,title:survey.survey_demo_burger_quiz_p2_q3
+msgid "Which is the highest volcano in Europe ?"
+msgstr "Wat is de hoogste vulkaan van Europa?"
 
 #. module: survey
 #: model:survey.question,title:survey.survey_feedback_p2_q1
@@ -4692,13 +4693,9 @@ msgstr "bijvoorbeeld enquete tevredenheid"
 
 #. module: survey
 #: model_terms:ir.ui.view,arch_db:survey.certification_report_view_classic
-msgid "for graduating from"
-msgstr "voor afstuderen van"
-
-#. module: survey
 #: model_terms:ir.ui.view,arch_db:survey.certification_report_view_modern
-msgid "for gratuating from"
-msgstr "voor afstuderen van"
+msgid "for graduating"
+msgstr "voor afstuderen"
 
 #. module: survey
 #: model_terms:ir.ui.view,arch_db:survey.certification_report_view_classic

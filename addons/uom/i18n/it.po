@@ -99,7 +99,7 @@ msgstr "Creato il"
 #. module: uom
 #: model:uom.uom,name:uom.product_uom_day
 msgid "Days"
-msgstr "giorni"
+msgstr "Giorni"
 
 #. module: uom
 #: model:ir.model.fields,field_description:uom.field_uom_category__display_name
@@ -174,7 +174,7 @@ msgstr "Lunghezza / Distanza"
 #. module: uom
 #: model:res.groups,name:uom.group_uom
 msgid "Manage Multiple Units of Measure"
-msgstr "Gestire unità di misura multiple"
+msgstr "Gestione unità di misura multiple"
 
 #. module: uom
 #: model:ir.model,name:uom.model_uom_uom

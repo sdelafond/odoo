@@ -3,10 +3,8 @@
 # 	* project
 # 
 # Translators:
-# Piia Paurson <piia@avalah.ee>, 2020
 # Egon Raamat <egon@avalah.ee>, 2020
 # Ants Peetsalu <ants@avalah.ee>, 2020
-# Triine Aavik <triine@avalah.ee>, 2020
 # Rivo Zängov <eraser@eraser.ee>, 2020
 # Martin Trigaux, 2020
 # Arma Gedonsky <armagedonsky@hot.ee>, 2020
@@ -15,14 +13,16 @@
 # Martin Aavastik <martin@avalah.ee>, 2020
 # Helen Sulaoja <helen@avalah.ee>, 2020
 # Algo Kärp <algokarp@gmail.com>, 2020
+# Piia Paurson <piia@avalah.ee>, 2020
+# Triine Aavik <triine@avalah.ee>, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-29 13:45+0000\n"
+"POT-Creation-Date: 2020-11-16 14:19+0000\n"
 "PO-Revision-Date: 2020-09-07 08:17+0000\n"
-"Last-Translator: Algo Kärp <algokarp@gmail.com>, 2020\n"
+"Last-Translator: Triine Aavik <triine@avalah.ee>, 2020\n"
 "Language-Team: Estonian (https://www.transifex.com/odoo/teams/41243/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -251,6 +251,9 @@ msgid ""
 "    of the note you are logging unless you specifically tag them)</i>. Use @ <b>mentions</b> to ping a colleague \n"
 "    or # <b>mentions</b> to reach an entire team."
 msgstr ""
+"<b>Logimärkused </b> sisemiseks kommunikatsiooniks <i>(jälgijaid ei teavitata märkmetest \n"
+"    juhul kui sa pole neid eraldi märkinud)</i>. Kasuta @ <b>mentions</b> kolleegile märguande andmiseks \n"
+"    või # <b>mentions</b> teavitamaks kogu tiimi."
 
 #. module: project
 #: model:mail.template,body_html:project.rating_project_request_email_template
@@ -600,19 +603,24 @@ msgid "All tasks"
 msgstr ""
 
 #. module: project
+#: model:ir.model.fields,field_description:project.field_project_task__allow_subtasks
+msgid "Allow Sub-tasks"
+msgstr ""
+
+#. module: project
 #: model:ir.model.fields,field_description:project.field_project_project__allowed_internal_user_ids
 msgid "Allowed Internal Users"
-msgstr ""
+msgstr "Lubatud sisemised kasutajad"
 
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_project__allowed_portal_user_ids
 msgid "Allowed Portal Users"
-msgstr ""
+msgstr "Lubatud portaali kasutajad"
 
 #. module: project
 #: model:ir.model.fields,field_description:project.field_project_project__allowed_user_ids
 msgid "Allowed User"
-msgstr ""
+msgstr "Lubatud kasutaja"
 
 #. module: project
 #: model:ir.model,name:project.model_account_analytic_account
@@ -1197,9 +1205,9 @@ msgstr ""
 #: model:ir.model.fields,help:project.field_project_task__project_privacy_visibility
 msgid ""
 "Defines the visibility of the tasks of the project:\n"
-"- Invited employees: employees may only see the followed project and tasks.\n"
-"- All employees: employees may see all project and tasks.\n"
-"- Portal users and all employees: employees may see everything.   Portal users may see project and tasks followed by.\n"
+"- Invited internal users: employees may only see the followed project and tasks.\n"
+"- All internal users: employees may see all project and tasks.\n"
+"- Invited portal and all internal users: employees may see everything.   Portal users may see project and tasks followed by\n"
 "   them or by someone of their company."
 msgstr ""
 
@@ -2052,8 +2060,8 @@ msgstr "Peamine manus"
 #, python-format
 msgid ""
 "Manage the lifecycle of your project using the kanban view. Add newly "
-"acquired project, assign them and use the %s and %s to define if the project"
-" is ready for the next step. %s"
+"acquired projects, assign them and use the %s and %s to define if the "
+"project is ready for the next step. %s"
 msgstr ""
 
 #. module: project
@@ -3382,7 +3390,7 @@ msgstr ""
 #. module: project
 #: model:ir.model.fields,field_description:project.field_res_config_settings__module_hr_timesheet
 msgid "Task Logs"
-msgstr ""
+msgstr "Ülesannete logid"
 
 #. module: project
 #: model:mail.message.subtype,name:project.mt_project_task_rating
@@ -4036,11 +4044,6 @@ msgstr ""
 #. module: project
 #: model_terms:ir.ui.view,arch_db:project.portal_my_tasks
 msgid "in stage:"
-msgstr ""
-
-#. module: project
-#: model:ir.model.fields,field_description:project.field_project_task__allow_subtasks
-msgid "project.project"
 msgstr ""
 
 #. module: project

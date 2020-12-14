@@ -3,33 +3,14 @@
 # 	* web_editor
 # 
 # Translators:
-# Pedro M. Baeza <pedro.baeza@gmail.com>, 2020
-# Ana Juaristi <ajuaristio@gmail.com>, 2020
-# Nhomar Hernández [Vauxoo] <nhomar@vauxoo.com>, 2020
-# Rick Hunter <rick_hunter_ec@yahoo.com>, 2020
-# Carles Antoli <carlesantoli@hotmail.com>, 2020
-# Rick Hunter <rick.hunter.ec@gmail.com>, 2020
-# gabriumaa <gabriel.umana@delfixcr.com>, 2020
-# Katherine Zaoral <katherine.zaoral@gmail.com>, 2020
-# Inigo Zuluaga <inigo_zuluaga@yahoo.es>, 2020
-# Miguel Orueta <mo@landoo.es>, 2020
-# 966ff43e6966712895a590e7320ca288, 2020
-# VivianMontana23 <vivianpvm@gmail.com>, 2020
-# Jesse Garza <jga@odoo.com>, 2020
-# Efrem Jimenez <efj@odoo.com>, 2020
-# e2f <projects@e2f.com>, 2020
-# Jesús Alan Ramos Rodríguez <alan.ramos@jarsa.com.mx>, 2020
 # David Arnold <blaggacao@users.noreply.github.com>, 2020
+# e2f <projects@e2f.com>, 2020
 # Luis M. Ontalba <luis.martinez@tecnativa.com>, 2020
-# Antonio Trueba, 2020
-# Raquel Iciarte <ric@odoo.com>, 2020
 # Nicolás Broggi <rnbroggi@gmail.com>, 2020
 # Jon Perez <jop@odoo.com>, 2020
-# John Guardado <jgu@odoo.com>, 2020
-# gpi odoo <gpi@odoo.com>, 2020
-# Osiris Román <osiris.roman@yachaytech.edu.ec>, 2020
 # Leonardo J. Caballero G. <leonardocaballero@gmail.com>, 2020
 # Martin Trigaux, 2020
+# Olivier Dony <odo@odoo.com>, 2020
 # 
 msgid ""
 msgstr ""
@@ -37,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-02 14:12+0000\n"
 "PO-Revision-Date: 2020-09-07 08:20+0000\n"
-"Last-Translator: Martin Trigaux, 2020\n"
+"Last-Translator: Olivier Dony <odo@odoo.com>, 2020\n"
 "Language-Team: Spanish (https://www.transifex.com/odoo/teams/41243/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -71,7 +52,7 @@ msgstr ""
 #: code:addons/web_editor/static/src/xml/ace.xml:0
 #, python-format
 msgid "&times;"
-msgstr "&veces;"
+msgstr "&times;"
 
 #. module: web_editor
 #. openerp-web
