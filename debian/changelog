@@ -1,6 +1,6 @@
-odoo (14.0.0+dfsg.1-1~1.gbp121a02) UNRELEASED; urgency=medium
+odoo (14.0.0+dfsg.2-1~2.gbp677a95) UNRELEASED; urgency=medium
 
-  ** SNAPSHOT build @121a0291a72b5c6dc67bae81db41e1aef4facdc1 **
+  ** SNAPSHOT build @677a95df780e73ec18eb39847cd8df5aa4882356 **
 
   [ Sébastien Delafond ]
   * Remove sourceless addons
@@ -13,7 +13,7 @@ odoo (14.0.0+dfsg.1-1~1.gbp121a02) UNRELEASED; urgency=medium
   * overrides
   * Remove sourceless parts
 
- -- Sebastien Delafond <seb@debian.org>  Fri, 11 Dec 2020 14:35:26 +0100
+ -- Sebastien Delafond <seb@debian.org>  Mon, 14 Dec 2020 11:51:19 +0100
 
 odoo (14.0.0+dfsg-1) unstable; urgency=medium
 
