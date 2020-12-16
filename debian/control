@@ -52,6 +52,7 @@ Depends:
  python3-werkzeug,
  python3-xlsxwriter,
  python3-xlrd,
+ wkhtmltopdf
 Pre-Depends: ${misc:Pre-Depends}
 Conflicts: tinyerp-server, openerp-server, openerp-web, openerp
 Replaces: tinyerp-server, openerp-server, openerp-web, openerp
