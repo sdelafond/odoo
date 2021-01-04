@@ -44,3 +44,6 @@ odoo: privacy-breach-generic usr/lib/python3/dist-packages/odoo/addons/survey/da
 # Debian patch if needed.
 odoo: privacy-breach-generic usr/lib/python3/dist-packages/odoo/addons/website/views/website_templates.xml [<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin=""/>] (https://fonts.gstatic.com/)
 odoo: privacy-breach-generic usr/lib/python3/dist-packages/odoo/addons/website_google_map/views/google_map_templates.xml [<script src="//maps.google.com/maps/api/js">] (//maps.google.com/maps/api/js)
+
+# false-positive: source from Odoo
+odoo: embedded-javascript-library usr/lib/python3/dist-packages/odoo/addons/web_editor/static/lib/summernote/src/js/core/async.js please use libjs-async
