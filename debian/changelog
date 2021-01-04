@@ -1,3 +1,14 @@
+odoo (14.0.0+dfsg.2-2~1.gbpae6f58) UNRELEASED; urgency=medium
+
+  ** SNAPSHOT build @ae6f5891a11434f741dde15e5b6399ae59d528cc **
+
+  [ Sébastien Delafond ]
+  * d/rules: suppress useless removal of dh_link targets
+  * lintian: f-p for async.js (Comment: #977537)
+  * lintian: use libjs-jquery* (Comment: #977537)
+
+ -- Sebastien Delafond <seb@debian.org>  Mon, 04 Jan 2021 08:57:04 +0100
+
 odoo (14.0.0+dfsg.2-1) unstable; urgency=medium
 
   * Add missing sources, remove sourceless parts, and add lintian
