@@ -1,3 +1,4 @@
+# fonts
 usr/share/fonts/truetype/inconsolata/Inconsolata.otf usr/lib/python3/dist-packages/odoo/addons/point_of_sale/static/src/fonts/Inconsolata.otf
 usr/share/fonts-glyphicons/glyphicons-halflings-regular.ttf usr/lib/python3/dist-packages/odoo/addons/web/static/lib/bootstrap/fonts/glyphicons-halflings-regular.ttf
 usr/share/fonts-glyphicons/glyphicons-halflings-regular.woff usr/lib/python3/dist-packages/odoo/addons/web/static/lib/bootstrap/fonts/glyphicons-halflings-regular.woff
@@ -21,3 +22,10 @@ usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-MediumItalic.ttf  usr/
 usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-Regular.ttf usr/lib/python3/dist-packages/odoo/addons/web/static/src/fonts/google/Roboto/Roboto-Regular.ttf
 usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-Thin.ttf usr/lib/python3/dist-packages/odoo/addons/web/static/src/fonts/google/Roboto/Roboto-Thin.ttf
 usr/share/fonts/truetype/roboto/unhinted/RobotoTTF/Roboto-ThinItalic.ttf usr/lib/python3/dist-packages/odoo/addons/web/static/src/fonts/google/Roboto/Roboto-ThinItalic.ttf
+
+# JS libraries
+usr/share/javascript/jquery-ui/themes/base/jquery-ui.css usr/lib/python3/dist-packages/odoo/addons/web/static/lib/jquery.ui/jquery-ui.css
+usr/share/javascript/jquery-ui/jquery-ui.js usr/lib/python3/dist-packages/odoo/addons/web/static/lib/jquery.ui/jquery-ui.js
+usr/share/javascript/jquery/jquery.js usr/lib/python3/dist-packages/odoo/addons/web/static/lib/jquery/jquery.js
+usr/share/javascript/jquery/jquery.js usr/lib/python3/dist-packages/odoo/addons/web/static/src/js/libs/jquery.js
+#usr/share/javascript/underscore/underscore.js usr/lib/python3/dist-packages/odoo/addons/web/static/src/js/libs/underscore.js
