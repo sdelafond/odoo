@@ -36,6 +36,7 @@ Depends:
  python3-libsass,
  python3-lxml,
  python3-mako,
+ python3-num2words,
  python3-passlib,
  python3-polib,
  python3-psutil,
