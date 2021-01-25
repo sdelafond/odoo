@@ -9,7 +9,7 @@ Homepage: http://www.odoo.com/
 Vcs-Git: https://salsa.debian.org/freexian-team/odoo.git
 Vcs-Browser: https://salsa.debian.org/freexian-team/odoo
 
-Package: odoo
+Package: odoo-14
 Architecture: all
 Depends:
  ${misc:Depends},
@@ -56,8 +56,9 @@ Depends:
  python3-xlrd,
  wkhtmltopdf
 Pre-Depends: ${misc:Pre-Depends}
-Conflicts: tinyerp-server, openerp-server, openerp-web, openerp
-Replaces: tinyerp-server, openerp-server, openerp-web, openerp
+Conflicts: odoo, tinyerp-server, openerp-server, openerp-web, openerp
+Replaces: odoo, tinyerp-server, openerp-server, openerp-web, openerp
+Provides: odoo
 Recommends:
  ${python3:Recommends},
  postgresql,
